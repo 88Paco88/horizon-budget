@@ -104,10 +104,8 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-slate-950">
 
-    <!-- Top Navigation & Utility Header -->
     <header class="sticky top-0 z-30 glass-panel border-b border-slate-800/80 px-3 sm:px-6 py-2.5 sm:py-3">
         <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
-            <!-- Brand -->
             <div class="flex items-center gap-2.5 sm:gap-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-sky-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
                     <i data-lucide="compass" class="w-5 h-5 sm:w-6 sm:h-6 text-slate-950 stroke-[2.5]"></i>
@@ -119,56 +117,41 @@
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online Ready
                         </span>
                     </div>
-                    <p class="text-[11px] text-slate-400 hidden xl:block">Real-time liquidity tracking, temporal cash-flow forecasting & multi-device sync</p>
                 </div>
             </div>
 
-            <!-- Controls, Sync Bar & PWA Setup Actions -->
             <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <!-- Base "Today" Reference Date Display -->
                 <div class="hidden md:flex items-center gap-1.5 bg-slate-900/90 border border-slate-700/70 rounded-lg px-2.5 py-1.5 text-xs">
                     <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i>
                     <span class="text-slate-400">Today:</span>
-                    <input type="date" id="baseTodayInput" class="bg-transparent text-slate-200 font-mono focus:outline-none cursor-pointer" title="Change Base Reference Date (Today)">
+                    <input type="date" id="baseTodayInput" class="bg-transparent text-slate-200 font-mono focus:outline-none cursor-pointer">
                 </div>
 
-                <!-- Currency Selector -->
                 <div class="flex items-center bg-slate-900/90 border border-slate-700/70 rounded-lg p-0.5 text-[11px] sm:text-xs font-mono">
                     <button onclick="setCurrency('€')" id="curr-EUR" class="px-2 py-1 rounded-md transition-colors">€</button>
                     <button onclick="setCurrency('$')" id="curr-USD" class="px-2 py-1 rounded-md transition-colors">$</button>
                     <button onclick="setCurrency('£')" id="curr-GBP" class="px-2 py-1 rounded-md transition-colors">£</button>
                 </div>
 
-                <!-- Data Portability & Multi-Device Sync Bar -->
                 <div class="flex items-center gap-1 sm:gap-1.5 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
-                    <!-- Quick Clipboard Sync Button -->
-                    <button onclick="openClipboardSyncModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 text-xs font-medium border border-sky-500/30 transition" title="Quick Copy/Paste Sync Code between Phone & Laptop">
+                    <button onclick="openClipboardSyncModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 text-xs font-medium border border-sky-500/30 transition">
                         <i data-lucide="qr-code" class="w-3.5 h-3.5 text-sky-400"></i>
                         <span>Sync Code</span>
                     </button>
-
-                    <!-- Export JSON -->
-                    <button onclick="exportData()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition" title="Export timestamped JSON Backup">
+                    <button onclick="exportData()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
                         <i data-lucide="download" class="w-3.5 h-3.5 text-sky-400"></i>
                         <span class="hidden sm:inline">Export</span>
                     </button>
-
-                    <!-- Import JSON -->
-                    <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer" title="Import JSON Backup">
+                    <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
                         <i data-lucide="upload" class="w-3.5 h-3.5 text-emerald-400"></i>
                         <span class="hidden sm:inline">Import</span>
                         <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importData(event)">
                     </label>
-
-                    <!-- Built-in PWA Setup & Offline Guide Modal Trigger -->
-                    <button onclick="openPwaModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-medium border border-emerald-500/30 transition" title="Install App & Offline PWA Setup Guide">
+                    <button onclick="openPwaModal()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-medium border border-emerald-500/30 transition">
                         <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span class="hidden lg:inline">📱 Install & Offline Setup</span>
-                        <span class="lg:hidden">PWA</span>
+                        <span class="hidden lg:inline">📱 PWA & Offline</span>
                     </button>
-
-                    <!-- Demo / Reset -->
-                    <button onclick="openResetModal()" class="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 text-xs font-medium border border-slate-700 hover:border-rose-700/50 transition" title="Load Demo Data or Reset">
+                    <button onclick="openResetModal()" class="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 text-xs font-medium border border-slate-700 transition">
                         <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
                     </button>
                 </div>
@@ -176,18 +159,12 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="flex-1 max-w-[1600px] w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-6 pb-20 sm:pb-8">
 
-        <!-- ===================================================================== -->
-        <!-- SECTION 1: CURRENT NET WORTH & TIME-MACHINE HERO                      -->
-        <!-- ===================================================================== -->
+        <!-- SECTION 1: CURRENT NET WORTH & TIME MACHINE -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-            <!-- Left 4 Cols: CURRENT NET WORTH & LIQUIDITY ACCOUNTS -->
             <div class="lg:col-span-4 glass-panel rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden glow-emerald">
                 <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
@@ -199,13 +176,11 @@
                         </button>
                     </div>
 
-                    <!-- Big Current Net Worth Figure -->
                     <div class="flex items-baseline gap-3 my-1">
                         <span id="kpiCurrentNetWorth" class="text-3xl sm:text-4xl font-bold font-mono tracking-tight text-white">€0.00</span>
                         <span id="kpiAccountCount" class="text-xs text-slate-400 font-mono">0 accounts</span>
                     </div>
 
-                    <!-- Collapsible Add Account Form -->
                     <div id="accountFormContainer" class="hidden mt-3 p-3 rounded-xl bg-slate-900/90 border border-slate-700/80 space-y-2.5">
                         <div class="text-xs font-medium text-slate-300 flex items-center justify-between">
                             <span id="accountFormTitle">New Asset / Liability Account</span>
@@ -213,14 +188,14 @@
                         </div>
                         <input type="hidden" id="editAccountId" value="">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <input type="text" id="accName" placeholder="e.g., Fineco Bank, Cash..." class="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
+                            <input type="text" id="accName" placeholder="e.g., Trade Republic, Revolut..." class="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
                             <input type="number" step="0.01" id="accBalance" placeholder="Balance (use - for debt)" class="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-sky-500">
                         </div>
                         <div class="flex items-center justify-between gap-2">
                             <select id="accType" class="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-sky-500 flex-1">
-                                <option value="checking">Checking / Liquidity</option>
-                                <option value="savings">Savings / Emergency</option>
-                                <option value="investment">Investments / Broker</option>
+                                <option value="checking">Checking / Liquidity (Revolut)</option>
+                                <option value="savings">Savings / Emergency (TR Cash)</option>
+                                <option value="investment">Investments / Broker (TR ETFs)</option>
                                 <option value="cash">Cash / Physical</option>
                                 <option value="Debt">Credit Card / Debt (-)</option>
                             </select>
@@ -228,39 +203,33 @@
                         </div>
                     </div>
 
-                    <!-- Accounts List -->
-                    <div id="accountsList" class="mt-4 space-y-1.5 max-h-44 overflow-y-auto pr-1">
-                        <!-- Dynamically populated -->
-                    </div>
+                    <div id="accountsList" class="mt-4 space-y-1.5 max-h-44 overflow-y-auto pr-1"></div>
                 </div>
 
                 <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-                    <span>Click any balance to quick-edit</span>
+                    <span>Click balance to quick-edit</span>
                     <span id="assetsVsLiabilitiesText" class="font-mono text-slate-300">Assets: €0 | Debt: €0</span>
                 </div>
             </div>
 
-            <!-- Right 8 Cols: TIME MACHINE TARGET DATE & PROJECTED KPI CARDS -->
             <div class="lg:col-span-8 glass-panel rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden glow-sky">
                 <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                <!-- Time Machine Control Header -->
                 <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 mb-4">
                     <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2">
                             <div class="p-1.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400">
-                                <i data-lucide="Sliders-horizontal" class="w-4 h-4"></i>
+                                <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-semibold text-white flex items-center gap-2">
                                     Future Net Worth Time-Machine
                                     <span id="daysFromTodayBadge" class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">+90 Days</span>
                                 </h3>
-                                <p class="text-xs text-slate-400">Scrub the timeline or pick a target date to simulate your future net worth</p>
+                                <p class="text-xs text-slate-400">Scrub timeline or pick target date to simulate future net worth</p>
                             </div>
                         </div>
 
-                        <!-- Target Date Picker & Quick Horizon Pills -->
                         <div class="flex flex-wrap items-center gap-2">
                             <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg p-0.5 text-[11px] font-mono">
                                 <button onclick="jumpToOffsetDays(0)" class="px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition">Today</button>
@@ -270,28 +239,24 @@
                                 <button onclick="jumpToOffsetMonths(12)" class="px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition">+1Y</button>
                                 <button onclick="jumpToOffsetMonths(24)" class="px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition">+2Y</button>
                             </div>
-                            <input type="date" id="targetDatePicker" onchange="onTargetDatePickerChange(this.value)" class="px-3 py-1.5 rounded-lg bg-sky-950/60 border border-sky-500/50 text-sky-200 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            <input type="date" id="targetDatePicker" onchange="onTargetDatePickerChange(this.value)" class="px-3 py-1.5 rounded-lg bg-sky-950/60 border border-sky-500/50 text-sky-200 font-mono text-xs focus:outline-none">
                         </div>
                     </div>
 
-                    <!-- Interactive Timeline Scrubber (0 to 730 days / 24 months) -->
                     <div class="space-y-1.5">
                         <input type="range" id="timelineSlider" min="0" max="730" value="90" oninput="onTimelineSliderChange(this.value)" class="w-full">
                         <div class="flex justify-between text-[10px] font-mono text-slate-400 px-1">
                             <span>Today</span>
-                            <span>+3 Months</span>
-                            <span>+6 Months</span>
-                            <span>+1 Year</span>
-                            <span>+18 Months</span>
-                            <span>+2 Years (730d)</span>
+                            <span>+3M</span>
+                            <span>+6M</span>
+                            <span>+1Y</span>
+                            <span>+18M</span>
+                            <span>+2Y (730d)</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3 Live Projection KPI Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
-                    
-                    <!-- Projected Net Worth Card -->
                     <div class="p-4 rounded-xl bg-slate-900/70 border border-sky-500/30 flex flex-col justify-between">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-mono uppercase text-sky-400">Projected Net Worth</span>
@@ -304,11 +269,10 @@
                             </div>
                         </div>
                         <div id="kpiNetWorthDeltaBadge" class="text-xs font-mono inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 w-fit">
-                            +€0.00 (+0.0%) vs Today
+                            +€0.00 vs Today
                         </div>
                     </div>
 
-                    <!-- Scheduled Future Earnings Card -->
                     <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-mono uppercase text-emerald-400">Cumulative Inflows (+)</span>
@@ -316,14 +280,13 @@
                         </div>
                         <div class="my-2">
                             <div id="kpiProjectedEarnings" class="text-2xl font-bold font-mono text-emerald-400">+€0.00</div>
-                            <p class="text-[11px] text-slate-400 mt-1">Total predicted earnings up to target date</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Total earnings up to target date</p>
                         </div>
                         <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                             <div id="inflowBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 50%"></div>
                         </div>
                     </div>
 
-                    <!-- Scheduled Future Expenses Card -->
                     <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-mono uppercase text-rose-400">Cumulative Outflows (-)</span>
@@ -331,20 +294,17 @@
                         </div>
                         <div class="my-2">
                             <div id="kpiProjectedExpenses" class="text-2xl font-bold font-mono text-rose-400">-€0.00</div>
-                            <p class="text-[11px] text-slate-400 mt-1">Total predicted expenses up to target date</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Total expenses up to target date</p>
                         </div>
                         <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                             <div id="outflowBar" class="bg-rose-500 h-full transition-all duration-300" style="width: 50%"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- ===================================================================== -->
-        <!-- SECTION 2: INTERACTIVE NET WORTH TRAJECTORY CHART                     -->
-        <!-- ===================================================================== -->
+        <!-- SECTION 2: TRAJECTORY CHART -->
         <section class="glass-panel rounded-2xl p-5">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
                 <div>
@@ -352,36 +312,30 @@
                         <i data-lucide="activity" class="w-4 h-4 text-sky-400"></i>
                         Net Worth Trajectory & Cash Flow Horizon
                     </h2>
-                    <p class="text-xs text-slate-400">Click anywhere on the curve to lock the Time-Machine to that exact date</p>
+                    <p class="text-xs text-slate-400">Click anywhere on curve to lock Time-Machine to exact date</p>
                 </div>
-
-                <!-- Chart Horizon Selector & Lowest Point Warning -->
                 <div class="flex flex-wrap items-center gap-3">
                     <div id="lowestPointBadge" class="text-xs font-mono px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-2">
                         <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-400"></i>
-                        <span>Min Projected Balance: <strong id="minBalanceValue" class="text-white">€0</strong> on <span id="minBalanceDate">N/A</span></span>
+                        <span>Min Balance: <strong id="minBalanceValue" class="text-white">€0</strong> on <span id="minBalanceDate">N/A</span></span>
                     </div>
-
                     <div class="flex items-center bg-slate-900 border border-slate-700/80 rounded-lg p-0.5 text-xs font-mono">
-                        <button onclick="setChartHorizon(90)" id="hz-90" class="px-2.5 py-1 rounded-md transition">3M View</button>
-                        <button onclick="setChartHorizon(180)" id="hz-180" class="px-2.5 py-1 rounded-md transition">6M View</button>
-                        <button onclick="setChartHorizon(365)" id="hz-365" class="px-2.5 py-1 rounded-md transition">1Y View</button>
-                        <button onclick="setChartHorizon(730)" id="hz-730" class="px-2.5 py-1 rounded-md transition">2Y View</button>
+                        <button onclick="setChartHorizon(90)" id="hz-90" class="px-2.5 py-1 rounded-md transition">3M</button>
+                        <button onclick="setChartHorizon(180)" id="hz-180" class="px-2.5 py-1 rounded-md transition">6M</button>
+                        <button onclick="setChartHorizon(365)" id="hz-365" class="px-2.5 py-1 rounded-md transition">1Y</button>
+                        <button onclick="setChartHorizon(730)" id="hz-730" class="px-2.5 py-1 rounded-md transition">2Y</button>
                     </div>
                 </div>
             </div>
-
             <div class="relative h-72 sm:h-80 w-full">
                 <canvas id="trajectoryChart"></canvas>
             </div>
         </section>
 
-        <!-- ===================================================================== -->
-        <!-- SECTION 3 & 4: FUTURE CASH FLOW SCHEDULER & PERCENTAGE BUDGETING      -->
-        <!-- ===================================================================== -->
+        <!-- SECTION 3 & 4: CASHFLOW SCHEDULER & PERCENTAGE BUDGET ALLOCATOR -->
         <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
-            <!-- LEFT 7 COLS: FUTURE PREDICTED EARNINGS & EXPENSES SCHEDULER -->
+            <!-- FUTURE CASHFLOW SCHEDULER -->
             <div class="xl:col-span-7 glass-panel rounded-2xl p-5 flex flex-col justify-between">
                 <div>
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -390,27 +344,23 @@
                                 <i data-lucide="calendar-plus" class="w-4 h-4 text-emerald-400"></i>
                                 Future Predicted Earnings & Expenses
                             </h2>
-                            <p class="text-xs text-slate-400">Schedule one-off or recurring inflows and outflows. Toggle items on/off to test "What-If" scenarios.</p>
+                            <p class="text-xs text-slate-400">Schedule salary, trip, and expenses. Toggle items on/off to test what-if scenarios.</p>
                         </div>
                         <span id="scheduledRulesCounter" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300">0 rules</span>
                     </div>
 
-                    <!-- Add / Edit Future Transaction Form -->
                     <form id="cashflowForm" onsubmit="saveCashflowItem(event)" class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/80 mb-5 space-y-3">
                         <div class="flex items-center justify-between">
-                            <span id="cfFormTitle" class="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">+ Schedule Future Cash Flow Item</span>
-                            <button type="button" id="cfCancelEditBtn" onclick="resetCashflowForm()" class="hidden text-xs text-rose-400 hover:underline">Cancel Edit</button>
+                            <span id="cfFormTitle" class="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">+ Schedule Future Cash Flow</span>
+                            <button type="button" id="cfCancelEditBtn" onclick="resetCashflowForm()" class="hidden text-xs text-rose-400 hover:underline">Cancel</button>
                         </div>
                         <input type="hidden" id="cfEditId" value="">
 
                         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                            <!-- Title -->
                             <div class="sm:col-span-5">
-                                <label class="block text-[11px] text-slate-400 mb-1">Description / Event Title</label>
-                                <input type="text" id="cfTitle" required placeholder="e.g., Salary, Rent, Vacation, Bonus..." class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
+                                <label class="block text-[11px] text-slate-400 mb-1">Title / Description</label>
+                                <input type="text" id="cfTitle" required placeholder="e.g., Stipendio, Trip to Paris..." class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
                             </div>
-
-                            <!-- Type: Earning or Expense -->
                             <div class="sm:col-span-3">
                                 <label class="block text-[11px] text-slate-400 mb-1">Flow Type</label>
                                 <select id="cfType" onchange="onCfTypeChange()" class="w-full px-2.5 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-medium text-white focus:outline-none focus:border-sky-500">
@@ -418,55 +368,43 @@
                                     <option value="expense" class="text-rose-400">Expense (- Outflow)</option>
                                 </select>
                             </div>
-
-                            <!-- Amount -->
                             <div class="sm:col-span-4">
                                 <label class="block text-[11px] text-slate-400 mb-1">Amount</label>
                                 <input type="number" step="0.01" min="0.01" id="cfAmount" required placeholder="0.00" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-sky-500">
                             </div>
                         </div>
 
-                        <!-- Row 2: Category Bucket Link for Expenses, Date, Frequency -->
                         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                            <!-- Linked Budget Bucket (Visible for Expenses) -->
                             <div id="cfBucketWrapper" class="sm:col-span-4 hidden">
                                 <label class="block text-[11px] text-slate-400 mb-1 flex items-center gap-1">
                                     <i data-lucide="tag" class="w-3 h-3 text-amber-400"></i>
                                     <span>Collega al Budget Bucket</span>
                                 </label>
                                 <select id="cfBucketId" class="w-full px-2.5 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-sky-300 font-medium focus:outline-none focus:border-sky-500">
-                                    <option value="">-- Nessun bucket (Generale) --</option>
-                                    <!-- Populated dynamically from state.budgets -->
+                                    <option value="">-- Nessun bucket --</option>
                                 </select>
                             </div>
-
-                            <!-- Start / Execution Date -->
                             <div id="cfDateWrapper" class="sm:col-span-4">
-                                <label class="block text-[11px] text-slate-400 mb-1">Date (or Start Date)</label>
+                                <label class="block text-[11px] text-slate-400 mb-1">Date</label>
                                 <input type="date" id="cfDate" required class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-sky-500">
                             </div>
-
-                            <!-- Frequency -->
                             <div id="cfFreqWrapper" class="sm:col-span-4">
                                 <label class="block text-[11px] text-slate-400 mb-1">Frequency</label>
                                 <select id="cfFrequency" onchange="toggleEndDateVisibility()" class="w-full px-2.5 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
-                                    <option value="once">One-Time Event</option>
+                                    <option value="once">One-Time</option>
                                     <option value="monthly">Monthly (Recurring)</option>
-                                    <option value="weekly">Weekly (Recurring)</option>
-                                    <option value="yearly">Yearly (Recurring)</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="yearly">Yearly</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                            <!-- Optional End Date (for recurring) -->
                             <div id="cfEndDateWrapper" class="sm:col-span-8 hidden">
                                 <label class="block text-[11px] text-slate-400 mb-1">End Date (Optional)</label>
                                 <input type="date" id="cfEndDate" class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-sky-500">
                             </div>
-
-                            <!-- Submit Button -->
-                            <div id="cfSubmitWrapper" class="sm:col-span-4 ml-auto w-full">
+                            <div class="sm:col-span-4 ml-auto w-full">
                                 <button type="submit" class="w-full py-2 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-semibold text-xs shadow-md transition flex items-center justify-center gap-1.5">
                                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                                     <span id="cfSubmitBtnText">Add to Forecast</span>
@@ -475,80 +413,84 @@
                         </div>
                     </form>
 
-                    <!-- Filter Tabs for Scheduled Items -->
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                         <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs">
-                            <button onclick="setCfFilter('all')" id="cff-all" class="px-2.5 py-1 rounded-md transition font-medium">All Scheduled</button>
-                            <button onclick="setCfFilter('activeWindow')" id="cff-activeWindow" class="px-2.5 py-1 rounded-md transition font-medium">Active up to Target Date</button>
-                            <button onclick="setCfFilter('earning')" id="cff-earning" class="px-2.5 py-1 rounded-md transition font-medium text-emerald-400">Earnings (+)</button>
-                            <button onclick="setCfFilter('expense')" id="cff-expense" class="px-2.5 py-1 rounded-md transition font-medium text-rose-400">Expenses (-)</button>
-                        </div>
-
-                        <div class="text-[11px] text-slate-400 flex items-center gap-2">
-                            <span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span>
-                            <span>Highlighted = Included in selected Target Date</span>
+                            <button type="button" onclick="setCfFilter('all')" id="cff-all" class="px-2.5 py-1 rounded-md transition">All</button>
+                            <button type="button" onclick="setCfFilter('activeWindow')" id="cff-activeWindow" class="px-2.5 py-1 rounded-md transition">In Target Window</button>
+                            <button type="button" onclick="setCfFilter('earning')" id="cff-earning" class="px-2.5 py-1 rounded-md transition">Earnings (+)</button>
+                            <button type="button" onclick="setCfFilter('expense')" id="cff-expense" class="px-2.5 py-1 rounded-md transition">Expenses (-)</button>
                         </div>
                     </div>
 
-                    <!-- Scheduled Items Table / List -->
-                    <div id="cashflowList" class="space-y-2 max-h-[460px] overflow-y-auto pr-1">
-                        <!-- Dynamically Populated -->
-                    </div>
+                    <div id="cashflowList" class="space-y-2 max-h-[360px] overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- Summary Footer of Scheduler -->
-                <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
-                    <span>Tip: Uncheck the switch on any item to simulate removing it from your future forecast.</span>
+                <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Tip: Toggle items to simulate removing them from forecast.</span>
                     <button onclick="toggleAllCashflows(true)" class="text-sky-400 hover:underline font-mono">Enable All</button>
                 </div>
             </div>
 
-            <!-- RIGHT 5 COLS: DYNAMIC PERCENTAGE BUDGET ALLOCATOR -->
+            <!-- PERCENTAGE BUDGET ALLOCATOR (SEPARATED TABS) -->
             <div class="xl:col-span-5 glass-panel rounded-2xl p-5 flex flex-col justify-between">
                 <div>
-                    <!-- Header -->
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
                         <div>
                             <h2 class="text-base font-semibold text-white flex items-center gap-2">
                                 <i data-lucide="pie-chart" class="w-4 h-4 text-amber-400"></i>
-                                Net Worth Percentage Budgeter
+                                Budget & Net Worth Allocator
                             </h2>
-                            <p class="text-xs text-slate-400">Divide your Net Worth into proportional spending & saving buckets</p>
+                            <p class="text-xs text-slate-400">Gestisci separatamente il 100% dello Stipendio e il 100% del Patrimonio</p>
                         </div>
-                        <button onclick="normalizeBudgetsTo100()" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition" title="Auto-scale percentages so they sum to exactly 100%">
+                        <button onclick="normalizeBudgetsTo100()" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
                             Normalize 100%
                         </button>
                     </div>
 
-                    <!-- Basis Selector: Current vs Projected Net Worth + Safety Floor -->
+                    <!-- TAB SWITCHER -->
+                    <div class="grid grid-cols-2 gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 mb-3 text-xs">
+                        <button onclick="setActiveBudgetTab('monthly')" id="tab-btn-monthly" class="py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5">
+                            <span>🔄 Budget Mensile</span>
+                        </button>
+                        <button onclick="setActiveBudgetTab('networth')" id="tab-btn-networth" class="py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5">
+                            <span>📦 Allocazione Patrimonio</span>
+                        </button>
+                    </div>
+
+                    <!-- POOL INFO CARD -->
                     <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 mb-4 space-y-3">
-                        <div class="flex items-center justify-between gap-2">
-                            <span class="text-xs text-slate-300 font-medium">Calculate Budgets From:</span>
-                            <div class="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-xs">
-                                <button onclick="setBudgetBasis('projected')" id="basis-projected" class="px-2.5 py-1 rounded-md transition font-medium">Projected Net Worth</button>
-                                <button onclick="setBudgetBasis('current')" id="basis-current" class="px-2.5 py-1 rounded-md transition font-medium">Current Net Worth</button>
+                        <div id="networthBasisControls" class="space-y-3">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-xs text-slate-300 font-medium">Calcola Patrimonio da:</span>
+                                <div class="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-xs">
+                                    <button onclick="setBudgetBasis('projected')" id="basis-projected" class="px-2.5 py-1 rounded-md transition font-medium">Projected Net Worth</button>
+                                    <button onclick="setBudgetBasis('current')" id="basis-current" class="px-2.5 py-1 rounded-md transition font-medium">Current Net Worth</button>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400"></i>
+                                    <span class="text-xs text-slate-300">Fondo Emergenza Bloccato (Safety Floor):</span>
+                                </div>
+                                <input type="number" step="100" min="0" id="safetyFloorInput" oninput="onSafetyFloorChange(this.value)" class="w-28 px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-amber-300 text-right focus:outline-none" placeholder="0">
                             </div>
                         </div>
 
-                        <!-- Optional Untouchable Safety Floor Deductor -->
-                        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                        <div id="monthlyBasisInfo" class="hidden flex items-center justify-between gap-2 text-xs text-slate-300">
                             <div class="flex items-center gap-1.5">
-                                <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400"></i>
-                                <span class="text-xs text-slate-300">Lock Safety Reserve Floor first:</span>
+                                <i data-lucide="banknote" class="w-4 h-4 text-emerald-400"></i>
+                                <span>Calcolato sulle tue entrate ricorrenti mensili</span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <input type="number" step="100" min="0" id="safetyFloorInput" oninput="onSafetyFloorChange(this.value)" class="w-28 px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-amber-300 text-right focus:outline-none focus:border-amber-400" placeholder="0">
-                            </div>
+                            <span id="monthlyIncomeIndicator" class="text-[11px] font-mono text-sky-300 font-bold">€1,500/mo</span>
                         </div>
 
-                        <!-- Resulting Allocatable Pool Banner -->
                         <div class="flex items-center justify-between bg-slate-950/90 px-3 py-2 rounded-lg border border-slate-800/90">
-                            <span class="text-xs text-slate-400">Allocatable Net Worth Pool (<span id="budgetPoolBasisLabel" class="text-sky-400 font-mono">Projected</span>):</span>
+                            <span class="text-xs text-slate-400">Capitale della Scheda (<span id="budgetPoolBasisLabel" class="text-sky-400 font-mono">Monthly</span>):</span>
                             <span id="allocatablePoolAmount" class="text-base font-bold font-mono text-white">€0.00</span>
                         </div>
                     </div>
 
-                    <!-- Allocation Total Progress Bar + Donut Mini Chart -->
+                    <!-- DONUT & STACKED BAR -->
                     <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center mb-4 p-3 rounded-xl bg-slate-900/50 border border-slate-800">
                         <div class="sm:col-span-4 h-28 flex items-center justify-center relative">
                             <canvas id="budgetDonutChart"></canvas>
@@ -558,43 +500,32 @@
                         </div>
                         <div class="sm:col-span-8 space-y-2">
                             <div class="flex items-center justify-between text-xs">
-                                <span class="text-slate-400">Total Percentage Allocated:</span>
+                                <span id="activeTabPctTitle" class="text-slate-400">Totale Allocato:</span>
                                 <span id="totalBudgetPctLabel" class="font-mono font-bold text-emerald-400">100.0%</span>
                             </div>
-                            <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800 flex" id="stackedBudgetBar">
-                                <!-- Stacked segments injected via JS -->
-                            </div>
-                            <p id="budgetWarningText" class="text-[11px] text-slate-400">All 100% of your allocatable net worth is assigned.</p>
+                            <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800 flex" id="stackedBudgetBar"></div>
+                            <p id="budgetWarningText" class="text-[11px] text-slate-400">Tutte le percentuali sommano al 100%.</p>
 
-                            <!-- Add New Category Mini Form -->
                             <div class="pt-1 flex flex-wrap items-center gap-1.5">
-                                <input type="text" id="newBucketName" placeholder="Nome bucket (es. Guilt-Free)..." class="flex-1 min-w-[120px] px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500">
-                                <select id="newBucketKind" class="px-2 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-300 focus:outline-none focus:border-sky-500">
-                                    <option value="networth">📦 Patrimonio (Net Worth %)</option>
-                                    <option value="monthly">🔄 Spesa Mensile (Stipendio %)</option>
-                                </select>
-                                <input type="number" id="newBucketPct" placeholder="%" min="1" max="100" class="w-14 px-2 py-1 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-sky-500">
-                                <button onclick="addBudgetBucket()" class="px-2.5 py-1 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition">+ Add</button>
+                                <input type="text" id="newBucketName" placeholder="Nuovo bucket in questa scheda..." class="flex-1 min-w-[140px] px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none">
+                                <input type="number" id="newBucketPct" placeholder="%" min="1" max="100" class="w-16 px-2 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none">
+                                <button onclick="addBudgetBucket()" class="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition">+ Add</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Budget Buckets Interactive Sliders List -->
-                    <div id="budgetBucketsList" class="space-y-2.5 max-h-[370px] overflow-y-auto pr-1">
-                        <!-- Dynamically Populated -->
-                    </div>
+                    <div id="budgetBucketsList" class="space-y-2.5 max-h-[370px] overflow-y-auto pr-1"></div>
                 </div>
 
                 <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-                    <span>Budgets scale automatically as you scrub the Time-Machine</span>
-                    <span id="unallocatedEuroLabel" class="font-mono text-slate-300">Unallocated: €0.00</span>
+                    <span id="budgetFooterHint">I due budget hanno calcoli 100% separati</span>
+                    <span id="unallocatedEuroLabel" class="font-mono text-slate-300">Non allocato: €0.00</span>
                 </div>
             </div>
-
         </section>
     </main>
 
-    <!-- Mobile Sticky Bottom Quick-Bar for Native App Ergonomics -->
+    <!-- MOBILE NAVIGATION -->
     <nav class="sm:hidden fixed bottom-0 inset-x-0 z-30 glass-panel border-t border-slate-800 px-3 py-2 flex items-center justify-around text-[11px] font-medium">
         <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
             <i data-lucide="gauge" class="w-4 h-4 text-sky-400"></i>
@@ -606,17 +537,15 @@
         </button>
         <button onclick="exportData()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
             <i data-lucide="download" class="w-4 h-4 text-amber-400"></i>
-            <span>Backup JSON</span>
+            <span>Backup</span>
         </button>
         <button onclick="openPwaModal()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
             <i data-lucide="smartphone" class="w-4 h-4 text-purple-400"></i>
-            <span>Offline Guide</span>
+            <span>Offline PWA</span>
         </button>
     </nav>
 
-    <!-- ===================================================================== -->
-    <!-- MODAL 1: QUICK CLIPBOARD SYNC (COPY / PASTE SYNC CODE)                -->
-    <!-- ===================================================================== -->
+    <!-- MODAL 1: CLIPBOARD SYNC -->
     <div id="clipboardSyncModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full rounded-2xl p-5 sm:p-6 border border-slate-700 shadow-2xl space-y-4">
             <div class="flex items-center justify-between">
@@ -625,270 +554,110 @@
                         <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">Instant Multi-Device Clipboard Sync</h3>
-                        <p class="text-[11px] text-slate-400">Move your entire financial state between Laptop & Phone in 2 seconds</p>
+                        <h3 class="text-base font-bold text-white">Instant Multi-Device Sync</h3>
+                        <p class="text-[11px] text-slate-400">Move state between Laptop & Phone in 2 seconds</p>
                     </div>
                 </div>
                 <button onclick="closeClipboardSyncModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
 
-            <!-- Step 1: Copy from current device -->
             <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold text-sky-300 flex items-center gap-1.5">
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i> 1. Send from this device
                     </span>
-                    <span id="syncStringStats" class="text-[10px] font-mono text-slate-400">URL-Safe Sync State</span>
+                    <span id="syncStringStats" class="text-[10px] font-mono text-slate-400">URL-Safe Sync</span>
                 </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed">
-                    Copy either the <strong>Sync Code</strong> or the <strong>Magic Sync Link</strong> and send it to your phone via WhatsApp, Telegram, or Notes.
-                </p>
                 <div class="flex flex-col sm:flex-row gap-2">
                     <input type="text" id="generatedSyncCodeInput" readonly class="flex-1 px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300 select-all focus:outline-none">
                     <div class="flex gap-1.5 shrink-0">
-                        <button onclick="copySyncCodeToClipboard()" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="clipboard-copy" class="w-3.5 h-3.5"></i>
-                            <span>Copy Code</span>
-                        </button>
-                        <button onclick="copyMagicSyncLink()" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold text-xs transition flex items-center justify-center gap-1.5" title="Copy a direct clickable URL that auto-syncs when opened on your phone">
-                            <i data-lucide="link" class="w-3.5 h-3.5"></i>
-                            <span>Copy Magic Link</span>
-                        </button>
+                        <button onclick="copySyncCodeToClipboard()" class="px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition">Copy Code</button>
+                        <button onclick="copyMagicSyncLink()" class="px-3 py-2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-semibold text-xs transition">Copy Magic Link</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 2: Paste from other device -->
             <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
-                        <i data-lucide="clipboard-paste" class="w-3.5 h-3.5"></i> 2. Receive & Restore on this device
+                        <i data-lucide="clipboard-paste" class="w-3.5 h-3.5"></i> 2. Receive & Restore
                     </span>
                 </div>
-                <p class="text-[11px] text-slate-400 leading-relaxed">
-                    Paste a Sync Code (or raw JSON) from your other device below and click <strong>Apply Sync Code</strong> to update your workspace immediately.
-                </p>
-                <textarea id="pasteSyncCodeInput" rows="3" placeholder="Paste your HZN1:... sync string or JSON backup here..." class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"></textarea>
+                <textarea id="pasteSyncCodeInput" rows="3" placeholder="Paste Sync Code or Magic Link here..." class="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-emerald-500"></textarea>
                 <div class="flex justify-end gap-2">
-                    <button onclick="closeClipboardSyncModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">Cancel</button>
-                    <button onclick="applyPastedSyncCode()" class="px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition flex items-center gap-1.5">
-                        <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                        <span>Apply Sync Code</span>
-                    </button>
+                    <button onclick="closeClipboardSyncModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
+                    <button onclick="applyPastedSyncCode()" class="px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition">Apply Sync Code</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===================================================================== -->
-    <!-- MODAL 2: BUILT-IN PWA SETUP & OFFLINE GUIDE MODAL                     -->
-    <!-- ===================================================================== -->
+    <!-- MODAL 2: PWA GUIDE -->
     <div id="pwaModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
         <div class="glass-panel max-w-3xl w-full max-h-[90vh] flex flex-col rounded-2xl border border-slate-700 shadow-2xl overflow-hidden">
-            <!-- Modal Header -->
             <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
                 <div class="flex items-center gap-2.5">
                     <div class="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
                         <i data-lucide="smartphone" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-white">📱 Install as PWA & 100% Offline Setup Guide</h3>
-                        <p class="text-xs text-slate-400">Run Horizon natively on your iPhone, Android, Mac, or PC — even in Airplane Mode</p>
+                        <h3 class="text-base font-bold text-white">📱 PWA & 100% Offline Guide</h3>
+                        <p class="text-xs text-slate-400">Run Horizon natively on iPhone, Android, Mac, or PC</p>
                     </div>
                 </div>
                 <button onclick="closePwaModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-
-            <!-- Modal Scrollable Body -->
-            <div class="p-5 overflow-y-auto space-y-5 text-xs text-slate-300 leading-relaxed">
-                
-                <!-- Quick 3-Step Overview -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-                        <div class="font-mono text-sky-400 font-bold mb-1">STEP 1 // FILES</div>
-                        <div class="font-semibold text-white mb-1">Save 3 Files in a Folder</div>
-                        <p class="text-[11px] text-slate-400">Save this <code class="text-sky-300">index.html</code> alongside <code class="text-sky-300">manifest.json</code> and <code class="text-sky-300">sw.js</code> below.</p>
-                    </div>
-                    <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-                        <div class="font-mono text-emerald-400 font-bold mb-1">STEP 2 // HOST FREE</div>
-                        <div class="font-semibold text-white mb-1">Push to GitHub Pages</div>
-                        <p class="text-[11px] text-slate-400">Upload the folder to a free GitHub repository and enable <strong>GitHub Pages</strong> (or Netlify Drop).</p>
-                    </div>
-                    <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
-                        <div class="font-mono text-amber-400 font-bold mb-1">STEP 3 // INSTALL</div>
-                        <div class="font-semibold text-white mb-1">Add to Home Screen</div>
-                        <p class="text-[11px] text-slate-400">On iOS Safari tap <strong>Share → Add to Home Screen</strong>. On Desktop/Android Chrome click <strong>Install App</strong>.</p>
-                    </div>
-                </div>
-
-                <!-- File 1: manifest.json -->
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="font-mono font-bold text-white text-sm">1. manifest.json</span>
-                            <span class="ml-2 text-[11px] text-slate-400">Configures standalone full-screen app mode & icons</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="copyCodeBlock('manifestCodeBlock', 'manifest.json copied!')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 font-mono text-[11px] border border-slate-700 flex items-center gap-1">
-                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Code
-                            </button>
-                            <button onclick="downloadCompanionFile('manifest.json', 'manifestCodeBlock')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-mono text-[11px] border border-sky-500/30 flex items-center gap-1">
-                                <i data-lucide="download" class="w-3 h-3"></i> Download File
-                            </button>
-                        </div>
-                    </div>
-                    <pre id="manifestCodeBlock" class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-[11px] text-emerald-300 overflow-x-auto select-all">{
-  "name": "Horizon Net Worth & Cash Flow Time-Machine",
-  "short_name": "Horizon NW",
-  "description": "Personal Net Worth, Future Cash Flow Forecasting & Percentage Budgeting PWA",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#070b14",
-  "theme_color": "#070b14",
-  "orientation": "any",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;rect width='100' height='100' rx='22' fill='%230ea5e9'/&gt;&lt;circle cx='50' cy='50' r='28' fill='none' stroke='%23070b14' stroke-width='8'/&gt;&lt;polygon points='50,28 62,58 50,50 38,58' fill='%23070b14'/&gt;&lt;/svg&gt;",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}</pre>
-                </div>
-
-                <!-- File 2: sw.js (Service Worker) -->
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="font-mono font-bold text-white text-sm">2. sw.js (Offline Service Worker)</span>
-                            <span class="ml-2 text-[11px] text-slate-400">Caches HTML, Tailwind, Chart.js & Icons so it works 100% offline</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="copyCodeBlock('swCodeBlock', 'sw.js copied!')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 font-mono text-[11px] border border-slate-700 flex items-center gap-1">
-                                <i data-lucide="copy" class="w-3 h-3"></i> Copy Code
-                            </button>
-                            <button onclick="downloadCompanionFile('sw.js', 'swCodeBlock')" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-mono text-[11px] border border-sky-500/30 flex items-center gap-1">
-                                <i data-lucide="download" class="w-3 h-3"></i> Download File
-                            </button>
-                        </div>
-                    </div>
-                    <pre id="swCodeBlock" class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-[11px] text-sky-300 overflow-x-auto select-all">const CACHE_NAME = 'horizon-nw-pwa-v2.5';
-const PRECACHE_URLS = [
-  './',
-  './index.html',
-  './manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
-  'https://unpkg.com/lucide@latest'
-];
-
-self.addEventListener('install', (event) => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
-  );
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const copy = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
-          return networkResponse;
-        })
-        .catch(() => cachedResponse);
-      return cachedResponse || fetchPromise;
-    })
-  );
-});</pre>
-                </div>
-
-                <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-3">
-                    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
-                    <div>
-                        <div class="font-semibold text-emerald-300">Service Worker Auto-Registration is Already Embedded!</div>
-                        <p class="text-[11px] text-slate-300 mt-0.5">
-                            This <code class="text-white">index.html</code> file already includes the registration script for <code class="text-white">./sw.js</code> and links to <code class="text-white">./manifest.json</code>. As soon as you place those two files in the same folder and host it on GitHub Pages or localhost, offline caching activates automatically.
-                        </p>
-                    </div>
-                </div>
+            <div class="p-5 overflow-y-auto space-y-4 text-xs text-slate-300 leading-relaxed">
+                <p>This app is fully prepared as a Progressive Web App. Simply host <code class="text-sky-300">index.html</code> alongside <code class="text-sky-300">manifest.json</code> and <code class="text-sky-300">sw.js</code> on GitHub Pages to enable offline caching and home-screen installation.</p>
             </div>
-
-            <!-- Modal Footer -->
-            <div class="px-5 py-3 border-t border-slate-800 bg-slate-900/90 flex items-center justify-between">
-                <span id="swRegistrationStatusText" class="text-[11px] font-mono text-slate-400">Service Worker Status: Ready for host deployment</span>
+            <div class="px-5 py-3 border-t border-slate-800 bg-slate-900/90 flex justify-end">
                 <button onclick="closePwaModal()" class="px-4 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs">Got It</button>
             </div>
         </div>
     </div>
 
-    <!-- Demo / Reset Modal (No native alert/confirm) -->
+    <!-- RESET MODAL -->
     <div id="resetModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-700 shadow-2xl space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
                     <i data-lucide="database" class="w-5 h-5 text-amber-400"></i>
-                    Manage Workspace Data
+                    Manage Workspace
                 </h3>
                 <button onclick="closeResetModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed">
-                Choose whether you want to reload the rich sample financial scenario (with realistic accounts, recurring salary/rent, planned trips, and percentage budgets) or wipe all data to start from zero.
-            </p>
+            <p class="text-xs text-slate-300">Load sample financial data or clear everything to start fresh.</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <button onclick="loadSampleData(); closeResetModal();" class="p-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-left transition group">
-                    <div class="text-xs font-semibold text-sky-300 flex items-center justify-between">
-                        <span>Load Sample Data</span>
-                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-1">Populate realistic accounts, future cash flows & budget buckets</p>
+                <button onclick="loadSampleData(); closeResetModal();" class="p-3 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-left transition">
+                    <div class="text-xs font-semibold text-sky-300">Load Sample Data</div>
+                    <p class="text-[11px] text-slate-400 mt-1">Realistic accounts & budgets</p>
                 </button>
-                <button onclick="clearAllData(); closeResetModal();" class="p-3 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-left transition group">
-                    <div class="text-xs font-semibold text-rose-300 flex items-center justify-between">
-                        <span>Start Clean (€0)</span>
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-1">Clear all accounts and scheduled items to start fresh</p>
+                <button onclick="clearAllData(); closeResetModal();" class="p-3 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-left transition">
+                    <div class="text-xs font-semibold text-rose-300">Start Clean (€0)</div>
+                    <p class="text-[11px] text-slate-400 mt-1">Wipe all current data</p>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- TOAST -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 hidden px-4 py-2.5 rounded-xl bg-slate-900 border border-sky-500/50 text-xs text-white shadow-xl flex items-center gap-2">
         <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
         <span id="toastMsg">Saved</span>
     </div>
 
-    <!-- ========================================================================= -->
-    <!-- APPLICATION LOGIC & FINANCIAL FORECASTING ENGINE                          -->
-    <!-- ========================================================================= -->
     <script>
-        const STORAGE_KEY = 'horizon_networth_planner_v1';
+        const STORAGE_KEY = 'horizon_networth_planner_v2';
         const BUCKET_COLORS = ['#38bdf8', '#10b981', '#f59e0b', '#a855f7', '#f43f5e', '#14b8a6', '#6366f1', '#ec4899'];
 
-        // Application State
         let state = {
             currency: '€',
             baseToday: getTodayISO(),
             targetDate: addDaysISO(getTodayISO(), 90),
             chartHorizonDays: 365,
-            budgetBasis: 'projected', // 'projected' | 'current'
-            safetyFloor: 2000,
+            budgetBasis: 'projected',
+            activeBudgetTab: 'monthly', // 'monthly' | 'networth'
+            safetyFloor: 1500,
             cfFilter: 'all',
             accounts: [],
             cashflows: [],
@@ -898,7 +667,6 @@ self.addEventListener('fetch', (event) => {
         let trajectoryChartInstance = null;
         let budgetDonutInstance = null;
 
-        // --- Date Utility Helpers ---
         function getTodayISO() {
             const now = new Date();
             const y = now.getFullYear();
@@ -929,9 +697,7 @@ self.addEventListener('fetch', (event) => {
             const dt = parseISO(dateStr);
             const origDay = dt.getDate();
             dt.setMonth(dt.getMonth() + Number(months));
-            if (dt.getDate() !== origDay) {
-                dt.setDate(0); // Handle month-end overflow
-            }
+            if (dt.getDate() !== origDay) dt.setDate(0);
             return toISO(dt);
         }
 
@@ -950,36 +716,36 @@ self.addEventListener('fetch', (event) => {
         function formatMoney(amount, includeSign = false) {
             const num = Number(amount) || 0;
             const sign = num < 0 ? '-' : (includeSign && num > 0 ? '+' : '');
-            const absVal = Math.abs(num).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+            const absVal = Math.abs(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             return `${sign}${state.currency}${absVal}`;
         }
 
-        // --- Sample Data Generator ---
         function getDefaultSampleState() {
             const today = getTodayISO();
             return {
                 currency: '€',
                 baseToday: today,
-                targetDate: addDaysISO(today, 120),
+                targetDate: addDaysISO(today, 90),
                 chartHorizonDays: 365,
                 budgetBasis: 'projected',
-                safetyFloor: 2000,
+                activeBudgetTab: 'monthly',
+                safetyFloor: 1500,
                 cfFilter: 'all',
                 accounts: [
-                    { id: 'acc-1', name: 'Trade Republic (Liquidità 3%)', type: 'savings', balance: 4500.00 },
-                    { id: 'acc-2', name: 'Trade Republic (ETF Investiti)', type: 'investment', balance: 1200.00 },
-                    { id: 'acc-3', name: 'Revolut (Daily Spending)', type: 'checking', balance: 350.00 },
-                    { id: 'acc-4', name: 'Portafoglio Contanti', type: 'cash', balance: 120.00 }
+                    { id: 'acc-1', name: 'Trade Republic (Liquidità & TR Cash)', type: 'savings', balance: 3500.00 },
+                    { id: 'acc-2', name: 'Trade Republic (ETF Portafoglio)', type: 'investment', balance: 1200.00 },
+                    { id: 'acc-3', name: 'Revolut (Spese Quotidiane)', type: 'checking', balance: 250.00 },
+                    { id: 'acc-4', name: 'Portafoglio Contanti', type: 'cash', balance: 80.00 }
                 ],
                 budgets: [
-                    { id: 'b-1', name: 'Investimenti & ETF (Lungo Termine)', kind: 'networth', percent: 40, color: '#38bdf8' },
-                    { id: 'b-2', name: 'Salvadanaio Indipendenza / Casa (3%)', kind: 'networth', percent: 35, color: '#10b981' },
-                    { id: 'b-3', name: 'Travels & Concerts', kind: 'monthly', percent: 10, color: '#f59e0b' },
-                    { id: 'b-4', name: 'Personal Life (Benzina, Cura, Extra)', kind: 'monthly', percent: 10, color: '#a855f7' },
-                    { id: 'b-5', name: 'Guilt-Free Spending (Sfizi)', kind: 'monthly', percent: 5, color: '#f43f5e' }
+                    // Pool A: Allocazione Patrimonio (Net Worth)
+                    { id: 'b-1', name: 'Investimenti ETF (Lungo Termine)', kind: 'networth', percent: 60, spent: 0, color: '#38bdf8' },
+                    { id: 'b-2', name: 'Fondo Futura Indipendenza / Casa', kind: 'networth', percent: 40, spent: 0, color: '#10b981' },
+                    // Pool B: Budget Mensile (Stipendio)
+                    { id: 'b-3', name: 'Risparmio & PAC Mensile', kind: 'monthly', percent: 50, spent: 0, color: '#14b8a6' },
+                    { id: 'b-4', name: 'Viaggi & Concerti', kind: 'monthly', percent: 20, spent: 0, color: '#f59e0b' },
+                    { id: 'b-5', name: 'Spese Personali & Benzina', kind: 'monthly', percent: 20, spent: 0, color: '#a855f7' },
+                    { id: 'b-6', name: 'Guilt-Free Sfizi & Shopping', kind: 'monthly', percent: 10, spent: 0, color: '#f43f5e' }
                 ],
                 cashflows: [
                     {
@@ -995,22 +761,11 @@ self.addEventListener('fetch', (event) => {
                     },
                     {
                         id: 'cf-2',
-                        title: 'Viaggio & Concerti Weekend',
+                        title: 'Viaggio Weekend',
                         type: 'expense',
-                        amount: 180.00,
+                        amount: 150.00,
                         date: addDaysISO(today, 12),
                         frequency: 'once',
-                        endDate: '',
-                        enabled: true,
-                        bucketId: 'b-3'
-                    },
-                    {
-                        id: 'cf-3',
-                        title: 'Benzina & Taglio Capelli',
-                        type: 'expense',
-                        amount: 70.00,
-                        date: addDaysISO(today, 8),
-                        frequency: 'monthly',
                         endDate: '',
                         enabled: true,
                         bucketId: 'b-4'
@@ -1019,8 +774,6 @@ self.addEventListener('fetch', (event) => {
             };
         }
 
-        // --- Persistence ---
-        // Computes monthly baseline income from recurring earnings (e.g. Salary)
         function getMonthlyIncomeBasis() {
             let monthlyTotal = 0;
             state.cashflows.forEach(cf => {
@@ -1030,22 +783,16 @@ self.addEventListener('fetch', (event) => {
                 else if (cf.frequency === 'weekly') monthlyTotal += (amt * 52 / 12);
                 else if (cf.frequency === 'yearly') monthlyTotal += (amt / 12);
             });
-            // Fallback default if no recurring salary entered yet
             return monthlyTotal > 0 ? monthlyTotal : 1500;
         }
 
-        // Computes automatically committed/spent amounts per budget bucket from linked expenses
         function computeBucketExpenses() {
             const spentMap = {};
             state.budgets.forEach(b => spentMap[b.id] = 0);
-
-            // Sum active expenses linked to each bucket
             state.cashflows.forEach(cf => {
                 if (!cf.enabled || cf.type !== 'expense' || !cf.bucketId) return;
                 const amt = Number(cf.amount) || 0;
-                if (spentMap[cf.bucketId] !== undefined) {
-                    spentMap[cf.bucketId] += amt;
-                }
+                if (spentMap[cf.bucketId] !== undefined) spentMap[cf.bucketId] += amt;
             });
             return spentMap;
         }
@@ -1061,7 +808,7 @@ self.addEventListener('fetch', (event) => {
                     }
                 }
             } catch (e) {
-                console.error('Failed to load state:', e);
+                console.error('Load error:', e);
             }
             state = getDefaultSampleState();
         }
@@ -1070,7 +817,7 @@ self.addEventListener('fetch', (event) => {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             } catch (e) {
-                console.error('Failed to save state:', e);
+                console.error('Save error:', e);
             }
         }
 
@@ -1082,15 +829,10 @@ self.addEventListener('fetch', (event) => {
             window.__toastTimer = setTimeout(() => t.classList.add('hidden'), 2600);
         }
 
-        // --- Core Financial Forecasting Engine ---
         function getCurrentNetWorth() {
             return state.accounts.reduce((sum, acc) => sum + (Number(acc.balance) || 0), 0);
         }
 
-        /**
-         * Expands all enabled cashflow rules into concrete dated occurrences
-         * between startISO (exclusive of past, inclusive from startISO+1 or startISO) and endISO (inclusive).
-         */
         function expandCashflowOccurrences(startISO, endISO, includeDisabled = false) {
             const occurrences = [];
             const startDt = parseISO(startISO);
@@ -1108,11 +850,8 @@ self.addEventListener('fetch', (event) => {
 
                 while (cursorDt <= endDt && stepCount < 1000) {
                     if (ruleEndDt && cursorDt > ruleEndDt) break;
-
-                    // Occurrence is counted if it happens strictly after Today OR on Today if scheduled for Today
                     if (cursorDt >= startDt) {
                         const occISO = toISO(cursorDt);
-                        // Only apply cashflow changes that occur strictly after baseToday, or on/after baseToday+1 day so Today's net worth is the exact current account balance, OR if scheduled after Today
                         if (occISO > startISO) {
                             occurrences.push({
                                 ruleId: rule.id,
@@ -1125,9 +864,7 @@ self.addEventListener('fetch', (event) => {
                             });
                         }
                     }
-
                     if (rule.frequency === 'once') break;
-
                     stepCount++;
                     const baseRuleDt = parseISO(rule.date);
                     if (rule.frequency === 'weekly') {
@@ -1146,30 +883,22 @@ self.addEventListener('fetch', (event) => {
                     }
                 }
             });
-
             occurrences.sort((a, b) => a.date.localeCompare(b.date));
             return occurrences;
         }
 
-        /**
-         * Computes the daily trajectory from baseToday up to horizonDays,
-         * plus exact figures for state.targetDate.
-         */
         function computeProjectionSummary() {
             const currentNW = getCurrentNetWorth();
             const maxDays = Math.max(state.chartHorizonDays, diffDays(state.baseToday, state.targetDate), 30);
             const maxHorizonISO = addDaysISO(state.baseToday, maxDays);
-
             const allOccurrences = expandCashflowOccurrences(state.baseToday, maxHorizonISO, false);
 
-            // Group net flow by date
             const dailyDeltaMap = {};
             allOccurrences.forEach(occ => {
                 if (!dailyDeltaMap[occ.date]) dailyDeltaMap[occ.date] = 0;
                 dailyDeltaMap[occ.date] += (occ.type === 'earning' ? occ.amount : -occ.amount);
             });
 
-            // Build daily curve up to chartHorizonDays
             const labels = [];
             const dataPoints = [];
             let runningNW = currentNW;
@@ -1178,9 +907,7 @@ self.addEventListener('fetch', (event) => {
 
             for (let d = 0; d <= state.chartHorizonDays; d++) {
                 const dISO = addDaysISO(state.baseToday, d);
-                if (d > 0 && dailyDeltaMap[dISO]) {
-                    runningNW += dailyDeltaMap[dISO];
-                }
+                if (d > 0 && dailyDeltaMap[dISO]) runningNW += dailyDeltaMap[dISO];
                 labels.push(dISO);
                 dataPoints.push(Number(runningNW.toFixed(2)));
                 if (runningNW < minNW) {
@@ -1189,7 +916,6 @@ self.addEventListener('fetch', (event) => {
                 }
             }
 
-            // Calculate exact metrics at state.targetDate
             const targetOccurrences = allOccurrences.filter(o => o.date <= state.targetDate);
             let totalEarnings = 0;
             let totalExpenses = 0;
@@ -1209,50 +935,27 @@ self.addEventListener('fetch', (event) => {
             const projectedNW = currentNW + totalEarnings - totalExpenses;
 
             return {
-                currentNW,
-                projectedNW,
-                totalEarnings,
-                totalExpenses,
-                inflowEvents,
-                outflowEvents,
-                labels,
-                dataPoints,
-                minNW,
-                minNWDate,
-                targetOccurrences
+                currentNW, projectedNW, totalEarnings, totalExpenses,
+                inflowEvents, outflowEvents, labels, dataPoints, minNW, minNWDate, targetOccurrences
             };
         }
 
-        // --- UI Renderers ---
         function renderAll() {
-            // Sync top controls
             document.getElementById('baseTodayInput').value = state.baseToday;
             document.getElementById('targetDatePicker').value = state.targetDate;
             document.getElementById('targetDatePicker').min = state.baseToday;
 
             const daysOffset = Math.max(0, diffDays(state.baseToday, state.targetDate));
-            const slider = document.getElementById('timelineSlider');
-            slider.value = Math.min(730, daysOffset);
+            document.getElementById('timelineSlider').value = Math.min(730, daysOffset);
 
-            // Currency active pills
             ['€', '$', '£'].forEach(sym => {
-                const mapId = sym === '€' ? 'curr-EUR' : (sym === '$' ? 'curr-USD' : 'curr-GBP');
-                const btn = document.getElementById(mapId);
-                if (state.currency === sym) {
-                    btn.className = 'px-2.5 py-1 rounded-md bg-sky-500 text-slate-950 font-semibold transition-colors';
-                } else {
-                    btn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-colors';
-                }
+                const btn = document.getElementById(sym === '€' ? 'curr-EUR' : (sym === '$' ? 'curr-USD' : 'curr-GBP'));
+                btn.className = state.currency === sym ? 'px-2.5 py-1 rounded-md bg-sky-500 text-slate-950 font-semibold transition-colors' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition-colors';
             });
 
-            // Horizon buttons
             [90, 180, 365, 730].forEach(h => {
                 const btn = document.getElementById(`hz-${h}`);
-                if (state.chartHorizonDays === h) {
-                    btn.className = 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold transition';
-                } else {
-                    btn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
-                }
+                btn.className = state.chartHorizonDays === h ? 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold transition' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
             });
 
             const summary = computeProjectionSummary();
@@ -1266,39 +969,30 @@ self.addEventListener('fetch', (event) => {
             lucide.createIcons();
         }
 
-        // 1. Render Current Net Worth & Accounts
         function renderAccountsSection(currentNW) {
             document.getElementById('kpiCurrentNetWorth').textContent = formatMoney(currentNW);
             document.getElementById('kpiAccountCount').textContent = `${state.accounts.length} account${state.accounts.length === 1 ? '' : 's'}`;
 
-            let assets = 0;
-            let debts = 0;
+            let assets = 0, debts = 0;
             state.accounts.forEach(a => {
                 const b = Number(a.balance) || 0;
-                if (b >= 0) assets += b;
-                else debts += Math.abs(b);
+                if (b >= 0) assets += b; else debts += Math.abs(b);
             });
-            document.getElementById('assetsVsLiabilitiesText').textContent = `Assets: ${formatMoney(assets)} | Debt: -${formatMoney(debts)}`;
+            document.getElementById('assetsVsLiabilitiesText').textContent = `Assets: ${formatMoney(assets)} | Debt: ${formatMoney(debts)}`;
 
+            const iconMap = { checking: 'landmark', savings: 'piggy-bank', investment: 'candlestick-chart', cash: 'wallet', Debt: 'credit-card' };
             const listEl = document.getElementById('accountsList');
+
             if (state.accounts.length === 0) {
-                listEl.innerHTML = `<div class="text-xs text-slate-500 py-4 text-center border border-dashed border-slate-800 rounded-xl">No accounts added yet. Click "+ Add Account" to set your current net worth.</div>`;
+                listEl.innerHTML = `<div class="text-xs text-slate-500 py-4 text-center border border-dashed border-slate-800 rounded-xl">No accounts added yet.</div>`;
                 return;
             }
-
-            const iconMap = {
-                checking: 'landmark',
-                savings: 'piggy-bank',
-                investment: 'candlestick-chart',
-                cash: 'wallet',
-                Debt: 'credit-card'
-            };
 
             listEl.innerHTML = state.accounts.map(acc => {
                 const bal = Number(acc.balance) || 0;
                 const isNeg = bal < 0;
                 return `
-                    <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-900/70 hover:bg-slate-900 border border-slate-800/80 transition group">
+                    <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-900/75 hover:bg-slate-900 border border-slate-800 transition group">
                         <div class="flex items-center gap-2.5 min-w-0">
                             <div class="p-1.5 rounded-lg ${isNeg ? 'bg-rose-500/10 text-rose-400' : 'bg-slate-800 text-sky-400'}">
                                 <i data-lucide="${iconMap[acc.type] || 'wallet'}" class="w-3.5 h-3.5"></i>
@@ -1309,19 +1003,14 @@ self.addEventListener('fetch', (event) => {
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="editAccount('${acc.id}')" class="text-xs font-mono font-semibold ${isNeg ? 'text-rose-400' : 'text-emerald-400'} hover:underline" title="Click to edit balance">
-                                ${formatMoney(bal)}
-                            </button>
-                            <button onclick="deleteAccount('${acc.id}')" class="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 transition p-1" title="Delete account">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                            </button>
+                            <button onclick="editAccount('${acc.id}')" class="text-xs font-mono font-semibold ${isNeg ? 'text-rose-400' : 'text-emerald-400'} hover:underline">${formatMoney(bal)}</button>
+                            <button onclick="deleteAccount('${acc.id}')" class="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-rose-400 transition p-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // 2. Render Time-Machine KPIs
         function renderProjectionKPIs(summary, daysOffset) {
             document.getElementById('daysFromTodayBadge').textContent = daysOffset === 0 ? 'Today (0d)' : `+${daysOffset} Days`;
             document.getElementById('kpiProjectedNetWorth').textContent = formatMoney(summary.projectedNW);
@@ -1330,41 +1019,27 @@ self.addEventListener('fetch', (event) => {
             const netDelta = summary.projectedNW - summary.currentNW;
             const pctChange = summary.currentNW !== 0 ? ((netDelta / Math.abs(summary.currentNW)) * 100) : 0;
             const deltaBadge = document.getElementById('kpiNetWorthDeltaBadge');
-            const pctStr = `${netDelta >= 0 ? '+' : ''}${pctChange.toFixed(1)}%`;
 
-            if (netDelta >= 0) {
-                deltaBadge.className = 'text-xs font-mono inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 w-fit';
-            } else {
-                deltaBadge.className = 'text-xs font-mono inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30 w-fit';
-            }
-            deltaBadge.textContent = `${formatMoney(netDelta, true)} (${pctStr}) vs Today`;
+            deltaBadge.className = netDelta >= 0 ? 'text-xs font-mono inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 w-fit' : 'text-xs font-mono inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30 w-fit';
+            deltaBadge.textContent = `${formatMoney(netDelta, true)} (${pctChange.toFixed(1)}%) vs Today`;
 
-            // Earnings & Expenses KPI cards
             document.getElementById('kpiProjectedEarnings').textContent = formatMoney(summary.totalEarnings, true);
             document.getElementById('kpiInflowCount').textContent = `${summary.inflowEvents} inflow${summary.inflowEvents === 1 ? '' : 's'}`;
-
             document.getElementById('kpiProjectedExpenses').textContent = formatMoney(-summary.totalExpenses, true);
             document.getElementById('kpiOutflowCount').textContent = `${summary.outflowEvents} outflow${summary.outflowEvents === 1 ? '' : 's'}`;
 
             const totalFlowVol = summary.totalEarnings + summary.totalExpenses;
-            const inflowRatio = totalFlowVol > 0 ? Math.round((summary.totalEarnings / totalFlowVol) * 100) : 50;
-            const outflowRatio = totalFlowVol > 0 ? Math.round((summary.totalExpenses / totalFlowVol) * 100) : 50;
-            document.getElementById('inflowBar').style.width = `${inflowRatio}%`;
-            document.getElementById('outflowBar').style.width = `${outflowRatio}%`;
+            document.getElementById('inflowBar').style.width = `${totalFlowVol > 0 ? Math.round((summary.totalEarnings / totalFlowVol) * 100) : 50}%`;
+            document.getElementById('outflowBar').style.width = `${totalFlowVol > 0 ? Math.round((summary.totalExpenses / totalFlowVol) * 100) : 50}%`;
 
-            // Lowest projected point warning
             document.getElementById('minBalanceValue').textContent = formatMoney(summary.minNW);
             document.getElementById('minBalanceDate').textContent = formatDisplayDate(summary.minNWDate);
-            const minEl = document.getElementById('minBalanceValue');
-            minEl.className = summary.minNW < 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold';
         }
 
-        // 3. Render Interactive Chart.js Trajectory Curve with Target Date Vertical Marker
         function renderTrajectoryChart(summary) {
             const ctx = document.getElementById('trajectoryChart').getContext('2d');
             const targetIdx = summary.labels.indexOf(state.targetDate);
 
-            // Custom plugin to draw the vertical "Time-Machine Target Date" line
             const verticalTargetLinePlugin = {
                 id: 'verticalTargetLine',
                 afterDraw(chart) {
@@ -1380,7 +1055,6 @@ self.addEventListener('fetch', (event) => {
                     const c = chart.ctx;
 
                     c.save();
-                    // Vertical dashed glowing line
                     c.beginPath();
                     c.setLineDash([5, 5]);
                     c.moveTo(x, topY);
@@ -1389,7 +1063,6 @@ self.addEventListener('fetch', (event) => {
                     c.strokeStyle = '#38bdf8';
                     c.stroke();
 
-                    // Highlight circle on curve
                     c.beginPath();
                     c.setLineDash([]);
                     c.arc(x, y, 6, 0, Math.PI * 2);
@@ -1398,18 +1071,6 @@ self.addEventListener('fetch', (event) => {
                     c.lineWidth = 2;
                     c.strokeStyle = '#0f172a';
                     c.stroke();
-
-                    // Label pill at top
-                    const labelTxt = `Target: ${formatDisplayDate(state.targetDate)}`;
-                    c.font = '600 11px "JetBrains Mono", monospace';
-                    const textWidth = c.measureText(labelTxt).width;
-                    const pillX = Math.min(Math.max(x - textWidth / 2 - 8, chart.scales.x.left), chart.scales.x.right - textWidth - 16);
-                    c.fillStyle = '#0284c7';
-                    c.beginPath();
-                    c.roundRect(pillX, topY + 4, textWidth + 16, 20, 6);
-                    c.fill();
-                    c.fillStyle = '#ffffff';
-                    c.fillText(labelTxt, pillX + 8, topY + 18);
                     c.restore();
                 }
             };
@@ -1445,15 +1106,11 @@ self.addEventListener('fetch', (event) => {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    interaction: { mode: 'index', intersect: false },
                     onClick: (evt, elements, chart) => {
                         const points = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true);
                         if (points.length > 0) {
-                            const clickedIdx = points[0].index;
-                            const clickedDate = chart.data.labels[clickedIdx];
+                            const clickedDate = chart.data.labels[points[0].index];
                             if (clickedDate) {
                                 state.targetDate = clickedDate;
                                 saveState();
@@ -1463,16 +1120,9 @@ self.addEventListener('fetch', (event) => {
                     },
                     plugins: {
                         legend: { display: false },
-                        verticalTargetLine: {
-                            targetIndex: targetIdx
-                        },
+                        verticalTargetLine: { targetIndex: targetIdx },
                         tooltip: {
                             backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                            titleColor: '#94a3b8',
-                            bodyColor: '#f8fafc',
-                            borderColor: '#334155',
-                            borderWidth: 1,
-                            padding: 10,
                             titleFont: { family: 'JetBrains Mono', size: 11 },
                             bodyFont: { family: 'JetBrains Mono', size: 13, weight: 'bold' },
                             callbacks: {
@@ -1485,23 +1135,13 @@ self.addEventListener('fetch', (event) => {
                         x: {
                             grid: { color: 'rgba(51, 65, 85, 0.25)' },
                             ticks: {
-                                color: '#64748b',
-                                font: { family: 'JetBrains Mono', size: 10 },
-                                maxTicksLimit: 8,
-                                callback: function(val) {
-                                    const iso = this.getLabelForValue(val);
-                                    const dt = parseISO(iso);
-                                    return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
-                                }
+                                color: '#64748b', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 8,
+                                callback: function(val) { return parseISO(this.getLabelForValue(val)).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }); }
                             }
                         },
                         y: {
                             grid: { color: 'rgba(51, 65, 85, 0.25)' },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: { family: 'JetBrains Mono', size: 11 },
-                                callback: (val) => `${state.currency}${Number(val).toLocaleString()}`
-                            }
+                            ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 11 }, callback: (val) => `${state.currency}${Number(val).toLocaleString()}` }
                         }
                     }
                 },
@@ -1509,33 +1149,33 @@ self.addEventListener('fetch', (event) => {
             });
         }
 
-        // 4. Render Future Predicted Earnings & Expenses Scheduler
         function renderCashflowScheduler(summary) {
-            document.getElementById('scheduledRulesCounter').textContent = `${state.cashflows.length} scheduled rule${state.cashflows.length === 1 ? '' : 's'}`;
+            document.getElementById('scheduledRulesCounter').textContent = `${state.cashflows.length} rules`;
 
-            // Populate Budget Bucket select dropdown in the transaction form
             const bucketSelect = document.getElementById('cfBucketId');
             const currentSelected = bucketSelect.value;
-            bucketSelect.innerHTML = `<option value="">-- Nessun bucket (Generale) --</option>` +
-                state.budgets.map(b => `<option value="${b.id}">${b.kind === 'monthly' ? '🔄' : '📦'} ${escapeHtml(b.name)}</option>`).join('');
+            const monthlyBuckets = state.budgets.filter(b => b.kind === 'monthly');
+            const networthBuckets = state.budgets.filter(b => (b.kind || 'networth') === 'networth');
+
+            let optionsHtml = `<option value="">-- Nessun bucket --</option>`;
+            if (monthlyBuckets.length > 0) {
+                optionsHtml += `<optgroup label="🔄 Budget Mensile (Stipendio)">` + monthlyBuckets.map(b => `<option value="${b.id}">🔄 ${escapeHtml(b.name)}</option>`).join('') + `</optgroup>`;
+            }
+            if (networthBuckets.length > 0) {
+                optionsHtml += `<optgroup label="📦 Allocazione Patrimonio">` + networthBuckets.map(b => `<option value="${b.id}">📦 ${escapeHtml(b.name)}</option>`).join('') + `</optgroup>`;
+            }
+            bucketSelect.innerHTML = optionsHtml;
             bucketSelect.value = currentSelected;
 
-            // Filter buttons styling
             ['all', 'activeWindow', 'earning', 'expense'].forEach(f => {
                 const btn = document.getElementById(`cff-${f}`);
-                if (state.cfFilter === f) {
-                    btn.className = 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold transition';
-                } else {
-                    btn.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
-                }
+                if (!btn) return;
+                btn.className = state.cfFilter === f ? 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold transition' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
             });
 
-            // Count how many times each rule triggers up to state.targetDate
             const ruleStatsMap = {};
             summary.targetOccurrences.forEach(occ => {
-                if (!ruleStatsMap[occ.ruleId]) {
-                    ruleStatsMap[occ.ruleId] = { count: 0, totalImpact: 0 };
-                }
+                if (!ruleStatsMap[occ.ruleId]) ruleStatsMap[occ.ruleId] = { count: 0, totalImpact: 0 };
                 ruleStatsMap[occ.ruleId].count += 1;
                 ruleStatsMap[occ.ruleId].totalImpact += occ.amount;
             });
@@ -1543,78 +1183,40 @@ self.addEventListener('fetch', (event) => {
             let filtered = [...state.cashflows].sort((a, b) => a.date.localeCompare(b.date));
             if (state.cfFilter === 'earning') filtered = filtered.filter(i => i.type === 'earning');
             if (state.cfFilter === 'expense') filtered = filtered.filter(i => i.type === 'expense');
-            if (state.cfFilter === 'activeWindow') {
-                filtered = filtered.filter(i => (ruleStatsMap[i.id] && ruleStatsMap[i.id].count > 0));
-            }
+            if (state.cfFilter === 'activeWindow') filtered = filtered.filter(i => (ruleStatsMap[i.id] && ruleStatsMap[i.id].count > 0));
 
             const listEl = document.getElementById('cashflowList');
             if (filtered.length === 0) {
-                listEl.innerHTML = `<div class="text-xs text-slate-500 py-8 text-center border border-dashed border-slate-800 rounded-xl">No future cash flows match this filter. Use the form above to schedule future earnings or expenses.</div>`;
+                listEl.innerHTML = `<div class="text-xs text-slate-500 py-8 text-center border border-dashed border-slate-800 rounded-xl">No future cash flows match this filter.</div>`;
                 return;
             }
 
-            const freqBadgeLabel = {
-                once: 'One-Time',
-                weekly: 'Weekly',
-                monthly: 'Monthly',
-                yearly: 'Yearly'
-            };
-
+            const freqLabels = { once: 'One-Time', weekly: 'Weekly', monthly: 'Monthly', yearly: 'Yearly' };
             listEl.innerHTML = filtered.map(item => {
                 const stats = ruleStatsMap[item.id] || { count: 0, totalImpact: 0 };
-                const isActiveInWindow = item.enabled && stats.count > 0;
                 const isEarning = item.type === 'earning';
                 const linkedBucket = item.bucketId ? state.budgets.find(b => b.id === item.bucketId) : null;
 
                 return `
-                    <div class="p-3 rounded-xl transition border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${!item.enabled ? 'bg-slate-950/40 border-slate-800/50 opacity-55' : (isActiveInWindow ? 'bg-slate-900/90 border-sky-500/40' : 'bg-slate-900/50 border-slate-800')}">
+                    <div class="p-3 rounded-xl transition border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${!item.enabled ? 'bg-slate-950/40 border-slate-800 opacity-55' : 'bg-slate-900/90 border-slate-800'}">
                         <div class="flex items-start sm:items-center gap-3 min-w-0">
-                            <!-- Enable/Disable Switch for What-If simulation -->
-                            <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleCashflowItem('${item.id}')" class="mt-1 sm:mt-0 w-4 h-4 accent-sky-500 rounded cursor-pointer" title="Toggle to include/exclude in projection">
-
+                            <input type="checkbox" ${item.enabled ? 'checked' : ''} onchange="toggleCashflowItem('${item.id}')" class="mt-1 sm:mt-0 w-4 h-4 accent-sky-500 rounded cursor-pointer">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span class="text-xs font-semibold text-white truncate">${escapeHtml(item.title)}</span>
-                                    <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${freqBadgeLabel[item.frequency] || 'One-Time'}</span>
-                                    
-                                    ${linkedBucket ? `
-                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                                            <i data-lucide="tag" class="w-3 h-3"></i> ${escapeHtml(linkedBucket.name)}
-                                        </span>
-                                    ` : ''}
-
-                                    ${isActiveInWindow ? `
-                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/30">
-                                            Active (${stats.count}x = ${formatMoney(isEarning ? stats.totalImpact : -stats.totalImpact, true)})
-                                        </span>
-                                    ` : `
-                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400">
-                                            ${!item.enabled ? 'Paused' : 'After Target Date'}
-                                        </span>
-                                    `}
+                                    <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">${freqLabels[item.frequency] || 'One-Time'}</span>
+                                    ${linkedBucket ? `<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">🏷️ ${escapeHtml(linkedBucket.name)}</span>` : ''}
                                 </div>
-                                <div class="text-[11px] font-mono text-slate-400 mt-1 flex flex-wrap items-center gap-3">
-                                    <span>Start: ${formatDisplayDate(item.date)}</span>
-                                    ${item.endDate ? `<span>Until: ${formatDisplayDate(item.endDate)}</span>` : ''}
-                                </div>
+                                <div class="text-[11px] font-mono text-slate-400 mt-1">Start: ${formatDisplayDate(item.date)}</div>
                             </div>
                         </div>
-
-                        <div class="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/60">
+                        <div class="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800">
                             <div class="text-right">
-                                <div class="text-sm font-mono font-bold ${isEarning ? 'text-emerald-400' : 'text-rose-400'}">
-                                    ${formatMoney(isEarning ? item.amount : -item.amount, true)}
-                                </div>
-                                <div class="text-[10px] text-slate-500 font-mono">per occurrence</div>
+                                <div class="text-sm font-mono font-bold ${isEarning ? 'text-emerald-400' : 'text-rose-400'}">${formatMoney(isEarning ? item.amount : -item.amount, true)}</div>
                             </div>
-
                             <div class="flex items-center gap-1">
-                                <button onclick="editCashflowItem('${item.id}')" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition" title="Edit">
-                                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <button onclick="deleteCashflowItem('${item.id}')" class="p-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-950 text-slate-400 hover:text-rose-400 transition" title="Delete">
-                                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                                </button>
+                                <button onclick="editCashflowItem('${item.id}')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                                <button onclick="deleteCashflowItem('${item.id}')" class="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1622,150 +1224,121 @@ self.addEventListener('fetch', (event) => {
             }).join('');
         }
 
-        // 5. Render Dynamic Percentage Budget Allocator (With Dual-Nature: Net Worth Stock vs Monthly Income Flow)
         function renderBudgetAllocator(summary) {
+            const activeTab = state.activeBudgetTab || 'monthly';
+            const tabMonthlyBtn = document.getElementById('tab-btn-monthly');
+            const tabNwBtn = document.getElementById('tab-btn-networth');
+            const nwControls = document.getElementById('networthBasisControls');
+            const monthlyInfo = document.getElementById('monthlyBasisInfo');
+
+            if (activeTab === 'monthly') {
+                tabMonthlyBtn.className = 'py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow-md';
+                tabNwBtn.className = 'py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
+                nwControls.classList.add('hidden');
+                monthlyInfo.classList.remove('hidden');
+            } else {
+                tabNwBtn.className = 'py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5 bg-sky-500 text-slate-950 shadow-md';
+                tabMonthlyBtn.className = 'py-2 px-3 rounded-lg font-semibold transition flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
+                nwControls.classList.remove('hidden');
+                monthlyInfo.classList.add('hidden');
+            }
+
             const btnProj = document.getElementById('basis-projected');
             const btnCurr = document.getElementById('basis-current');
-            if (state.budgetBasis === 'projected') {
-                btnProj.className = 'px-2.5 py-1 rounded-md bg-sky-500 text-slate-950 font-semibold transition';
-                btnCurr.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
-                document.getElementById('budgetPoolBasisLabel').textContent = `Projected @ ${formatDisplayDate(state.targetDate)}`;
-            } else {
-                btnCurr.className = 'px-2.5 py-1 rounded-md bg-emerald-500 text-slate-950 font-semibold transition';
-                btnProj.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
-                document.getElementById('budgetPoolBasisLabel').textContent = 'Current Net Worth (Today)';
-            }
+            btnProj.className = state.budgetBasis === 'projected' ? 'px-2.5 py-1 rounded-md bg-sky-500 text-slate-950 font-semibold transition' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
+            btnCurr.className = state.budgetBasis === 'current' ? 'px-2.5 py-1 rounded-md bg-emerald-500 text-slate-950 font-semibold transition' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
 
             document.getElementById('safetyFloorInput').value = state.safetyFloor;
 
             const rawNetWorth = state.budgetBasis === 'projected' ? summary.projectedNW : summary.currentNW;
-            const allocatablePool = Math.max(0, rawNetWorth - (Number(state.safetyFloor) || 0));
-            document.getElementById('allocatablePoolAmount').textContent = formatMoney(allocatablePool);
-
+            const allocatableNwPool = Math.max(0, rawNetWorth - (Number(state.safetyFloor) || 0));
             const monthlyIncome = getMonthlyIncomeBasis();
-            const autoSpentMap = computeBucketExpenses();
 
-            const totalPct = state.budgets.reduce((s, b) => s + (Number(b.percent) || 0), 0);
+            document.getElementById('monthlyIncomeIndicator').textContent = `${formatMoney(monthlyIncome)}/mo`;
+
+            const activePoolAmount = activeTab === 'monthly' ? monthlyIncome : allocatableNwPool;
+            document.getElementById('budgetPoolBasisLabel').textContent = activeTab === 'monthly' ? 'Stipendio Mensile' : 'Patrimonio Netto';
+            document.getElementById('allocatablePoolAmount').textContent = activeTab === 'monthly' ? `${formatMoney(monthlyIncome)} / mo` : formatMoney(allocatableNwPool);
+            document.getElementById('activeTabPctTitle').textContent = activeTab === 'monthly' ? 'Stipendio Allocato:' : 'Patrimonio Allocato:';
+
+            const autoSpentMap = computeBucketExpenses();
+            const activeBuckets = state.budgets.filter(b => (b.kind || 'networth') === activeTab);
+
+            const totalPct = activeBuckets.reduce((s, b) => s + (Number(b.percent) || 0), 0);
             const roundedPct = Math.round(totalPct * 10) / 10;
 
-            const totalPctLabel = document.getElementById('totalBudgetPctLabel');
-            const donutCenter = document.getElementById('donutCenterPct');
-            const warningEl = document.getElementById('budgetWarningText');
+            document.getElementById('donutCenterPct').textContent = `${roundedPct}%`;
+            document.getElementById('totalBudgetPctLabel').textContent = `${roundedPct.toFixed(1)}%`;
 
-            donutCenter.textContent = `${roundedPct}%`;
-            totalPctLabel.textContent = `${roundedPct.toFixed(1)}%`;
+            const unallocatedEuro = activePoolAmount * ((100 - totalPct) / 100);
+            document.getElementById('unallocatedEuroLabel').textContent = `Non allocato: ${formatMoney(unallocatedEuro)}`;
 
-            if (Math.abs(roundedPct - 100) < 0.05) {
-                totalPctLabel.className = 'font-mono font-bold text-emerald-400';
-                warningEl.className = 'text-[11px] text-emerald-400';
-                warningEl.textContent = `100% assegnato. Base stipendio stimato: ${formatMoney(monthlyIncome)}/mese.`;
-            } else if (roundedPct < 100) {
-                totalPctLabel.className = 'font-mono font-bold text-amber-400';
-                warningEl.className = 'text-[11px] text-amber-300';
-                warningEl.textContent = `${(100 - roundedPct).toFixed(1)}% ancora da allocare. Clicca "Normalize 100%".`;
-            } else {
-                totalPctLabel.className = 'font-mono font-bold text-rose-400';
-                warningEl.className = 'text-[11px] text-rose-400';
-                warningEl.textContent = `Sovra-allocato di ${(roundedPct - 100).toFixed(1)}%! Riduci o clicca "Normalize 100%".`;
-            }
-
-            const unallocatedEuro = allocatablePool * ((100 - totalPct) / 100);
-            document.getElementById('unallocatedEuroLabel').textContent = `Unallocated NW: ${formatMoney(unallocatedEuro)}`;
-
-            // Stacked horizontal bar
             const stackedBar = document.getElementById('stackedBudgetBar');
-            stackedBar.innerHTML = state.budgets.map((b, i) => {
+            stackedBar.innerHTML = activeBuckets.map((b, i) => {
                 const c = b.color || BUCKET_COLORS[i % BUCKET_COLORS.length];
-                const widthPct = Math.min(100, Math.max(0, Number(b.percent) || 0));
-                return `<div style="width:${widthPct}%; background-color:${c}" class="h-full transition-all duration-200" title="${escapeHtml(b.name)}: ${b.percent}%"></div>`;
+                return `<div style="width:${Math.min(100, Math.max(0, b.percent))}%; background-color:${c}" class="h-full"></div>`;
             }).join('');
 
-            // Render Bucket Cards with Smart Tag (Net Worth vs Monthly Flow)
             const bucketsContainer = document.getElementById('budgetBucketsList');
-            bucketsContainer.innerHTML = state.budgets.map((b, idx) => {
-                const color = b.color || BUCKET_COLORS[idx % BUCKET_COLORS.length];
-                const pct = Number(b.percent) || 0;
-                const kind = b.kind || 'networth'; // 'networth' | 'monthly'
+            if (activeBuckets.length === 0) {
+                bucketsContainer.innerHTML = `<div class="text-xs text-slate-500 py-6 text-center border border-dashed border-slate-800 rounded-xl">Nessun bucket in questa scheda. Aggiungine uno qui sopra.</div>`;
+            } else {
+                bucketsContainer.innerHTML = activeBuckets.map((b, idx) => {
+                    const color = b.color || BUCKET_COLORS[idx % BUCKET_COLORS.length];
+                    const pct = Number(b.percent) || 0;
+                    const kind = b.kind || 'networth';
+                    const allocatedAmount = activePoolAmount * (pct / 100);
+                    const totalSpent = (autoSpentMap[b.id] || 0) + (Number(b.spent) || 0);
+                    const remaining = allocatedAmount - totalSpent;
 
-                // If monthly bucket, calculate based on recurring monthly income; if networth bucket, based on allocatable Net Worth pool
-                const baseCapital = kind === 'monthly' ? monthlyIncome : allocatablePool;
-                const allocatedAmount = baseCapital * (pct / 100);
-                
-                // Spent amount combines linked scheduled expenses + manual quick-spent amount
-                const autoSpent = autoSpentMap[b.id] || 0;
-                const manualSpent = Number(b.spent) || 0;
-                const totalSpent = autoSpent + manualSpent;
-                const remainingAmount = allocatedAmount - totalSpent;
-
-                return `
-                    <div class="p-3.5 rounded-xl bg-slate-900/80 border ${kind === 'monthly' ? 'border-amber-500/30' : 'border-slate-800'} space-y-2">
-                        <div class="flex items-center justify-between gap-2">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <span class="w-3 h-3 rounded-full shrink-0" style="background-color:${color}"></span>
-                                <div class="truncate">
-                                    <div class="text-xs font-semibold text-white truncate flex flex-wrap items-center gap-1.5">
-                                        <span>${escapeHtml(b.name)}</span>
-                                        <button onclick="toggleBucketKind('${b.id}')" class="text-[9px] font-mono px-1.5 py-0.5 rounded ${kind === 'monthly' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-sky-500/20 text-sky-300 border border-sky-500/30'} cursor-pointer hover:opacity-80 transition" title="Clicca per cambiare tra % Patrimonio e % Stipendio Mensile">
-                                            ${kind === 'monthly' ? '🔄 Mensile (Stipendio)' : '📦 Patrimonio (Net Worth)'}
-                                        </button>
+                    return `
+                        <div class="p-3.5 rounded-xl bg-slate-900/80 border ${kind === 'monthly' ? 'border-amber-500/30' : 'border-sky-500/30'} space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <span class="w-3 h-3 rounded-full shrink-0" style="background-color:${color}"></span>
+                                    <div class="truncate">
+                                        <div class="text-xs font-semibold text-white truncate flex items-center gap-1.5">
+                                            <span>${escapeHtml(b.name)}</span>
+                                            <button onclick="toggleBucketKind('${b.id}')" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 hover:border-sky-400">⇄ Sposta</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2 shrink-0">
-                                <div class="text-right">
-                                    <span class="text-sm font-mono font-bold text-white">${formatMoney(allocatedAmount)}</span>
-                                    ${kind === 'monthly' ? '<span class="text-[10px] text-slate-400 block font-mono">/mese</span>' : ''}
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <div class="text-right">
+                                        <span class="text-sm font-mono font-bold text-white">${formatMoney(allocatedAmount)}</span>
+                                    </div>
+                                    <button onclick="deleteBudgetBucket('${b.id}')" class="text-slate-500 hover:text-rose-400 p-0.5"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
                                 </div>
-                                <button onclick="deleteBudgetBucket('${b.id}')" class="text-slate-500 hover:text-rose-400 p-0.5 ml-1" title="Remove bucket">
-                                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                                </button>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <input type="range" min="0" max="100" step="0.5" value="${pct}" oninput="updateBucketPercent('${b.id}', this.value)" class="flex-1">
+                                <div class="flex items-center bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5">
+                                    <input type="number" min="0" max="100" step="0.5" value="${pct}" onchange="updateBucketPercent('${b.id}', this.value)" class="w-12 bg-transparent text-right text-xs font-mono text-sky-300 focus:outline-none">
+                                    <span class="text-xs font-mono text-slate-400 ml-0.5">%</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between gap-2 pt-1.5 border-t border-slate-800 text-[11px]">
+                                <span class="text-slate-400">Committed/Spent: <strong class="text-slate-200 font-mono">${formatMoney(totalSpent)}</strong></span>
+                                <span class="font-mono ${remaining >= 0 ? 'text-emerald-400' : 'text-rose-400'}">Disponibile: <strong>${formatMoney(remaining)}</strong></span>
                             </div>
                         </div>
+                    `;
+                }).join('');
+            }
 
-                        <!-- Percentage Slider + Exact Input -->
-                        <div class="flex items-center gap-3">
-                            <input type="range" min="0" max="100" step="0.5" value="${pct}"
-                                oninput="updateBucketPercent('${b.id}', this.value)"
-                                class="flex-1">
-                            <div class="flex items-center bg-slate-950 border border-slate-700 rounded-lg px-2 py-0.5">
-                                <input type="number" min="0" max="100" step="0.5" value="${pct}"
-                                    onchange="updateBucketPercent('${b.id}', this.value)"
-                                    class="w-12 bg-transparent text-right text-xs font-mono text-sky-300 focus:outline-none">
-                                <span class="text-xs font-mono text-slate-400 ml-0.5">%</span>
-                            </div>
-                        </div>
-
-                        <!-- Committed / Spent (Auto Linked + Manual Extra) vs Available -->
-                        <div class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-slate-800/70 text-[11px]">
-                            <div class="flex flex-wrap items-center gap-2 text-slate-400">
-                                <span title="Spese pianificate collegate automaticamente">Auto: <strong class="text-slate-200 font-mono">${formatMoney(autoSpent)}</strong></span>
-                                <span>+ Extra/Spese:</span>
-                                <input type="number" step="5" min="0" value="${manualSpent}"
-                                    onchange="updateBucketSpent('${b.id}', this.value)"
-                                    class="w-16 px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 font-mono text-slate-200 text-right focus:outline-none focus:border-sky-500"
-                                    title="Inserisci spese veloci o già impegnate manualmente">
-                            </div>
-                            <div class="font-mono ${remainingAmount >= 0 ? 'text-emerald-400' : 'text-rose-400'}">
-                                Disponibile: <strong>${formatMoney(remainingAmount)}</strong>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            renderBudgetDonutChart();
+            renderBudgetDonutChart(activeBuckets);
         }
 
-        function renderBudgetDonutChart() {
+        function renderBudgetDonutChart(activeBuckets) {
             const ctx = document.getElementById('budgetDonutChart').getContext('2d');
-            const labels = state.budgets.map(b => b.name);
-            const data = state.budgets.map(b => Number(b.percent) || 0);
-            const colors = state.budgets.map((b, i) => b.color || BUCKET_COLORS[i % BUCKET_COLORS.length]);
+            const labels = activeBuckets.map(b => b.name);
+            const data = activeBuckets.map(b => Number(b.percent) || 0);
+            const colors = activeBuckets.map((b, i) => b.color || BUCKET_COLORS[i % BUCKET_COLORS.length]);
 
             const total = data.reduce((a, b) => a + b, 0);
             if (total < 100) {
-                labels.push('Unallocated');
-                data.push(100 - total);
+                labels.push('Non Allocato');
+                data.push(Number((100 - total).toFixed(1)));
                 colors.push('#1e293b');
             }
 
@@ -1779,102 +1352,32 @@ self.addEventListener('fetch', (event) => {
 
             budgetDonutInstance = new Chart(ctx, {
                 type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#0f172a',
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                            bodyFont: { family: 'JetBrains Mono', size: 11 },
-                            callbacks: {
-                                label: (item) => ` ${item.label}: ${item.raw}%`
-                            }
-                        }
-                    }
-                }
+                data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#0f172a' }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { display: false } } }
             });
         }
 
-        // --- Interactive Event Handlers ---
-
-        // Base Today Change
+        // Event Handlers & Sync
         document.getElementById('baseTodayInput').addEventListener('change', function(e) {
             if (!e.target.value) return;
             state.baseToday = e.target.value;
-            if (state.targetDate < state.baseToday) {
-                state.targetDate = addDaysISO(state.baseToday, 30);
-            }
+            if (state.targetDate < state.baseToday) state.targetDate = addDaysISO(state.baseToday, 30);
             saveState();
             renderAll();
-            showToast('Reference Today date updated');
         });
 
-        function setCurrency(sym) {
-            state.currency = sym;
-            saveState();
-            renderAll();
-        }
+        function setCurrency(sym) { state.currency = sym; saveState(); renderAll(); }
+        function onTimelineSliderChange(days) { state.targetDate = addDaysISO(state.baseToday, Number(days)); saveState(); renderAll(); }
+        function onTargetDatePickerChange(dateVal) { if (dateVal >= state.baseToday) { state.targetDate = dateVal; saveState(); renderAll(); } }
+        function jumpToOffsetDays(days) { state.targetDate = addDaysISO(state.baseToday, days); saveState(); renderAll(); }
+        function jumpToOffsetMonths(months) { state.targetDate = addMonthsISO(state.baseToday, months); saveState(); renderAll(); }
+        function setChartHorizon(days) { state.chartHorizonDays = days; saveState(); renderAll(); }
 
-        // Time Machine Controls
-        function onTimelineSliderChange(daysOffset) {
-            state.targetDate = addDaysISO(state.baseToday, Number(daysOffset));
-            saveState();
-            renderAll();
-        }
-
-        function onTargetDatePickerChange(dateVal) {
-            if (!dateVal) return;
-            if (dateVal < state.baseToday) {
-                state.targetDate = state.baseToday;
-            } else {
-                state.targetDate = dateVal;
-            }
-            saveState();
-            renderAll();
-        }
-
-        function jumpToOffsetDays(days) {
-            state.targetDate = addDaysISO(state.baseToday, days);
-            saveState();
-            renderAll();
-        }
-
-        function jumpToOffsetMonths(months) {
-            state.targetDate = addMonthsISO(state.baseToday, months);
-            const daysDiff = diffDays(state.baseToday, state.targetDate);
-            if (daysDiff > state.chartHorizonDays) {
-                state.chartHorizonDays = daysDiff <= 365 ? 365 : 730;
-            }
-            saveState();
-            renderAll();
-        }
-
-        function setChartHorizon(days) {
-            state.chartHorizonDays = days;
-            saveState();
-            renderAll();
-        }
-
-        // Account Management
         function toggleAccountForm() {
-            const el = document.getElementById('accountFormContainer');
-            el.classList.toggle('hidden');
+            document.getElementById('accountFormContainer').classList.toggle('hidden');
             document.getElementById('editAccountId').value = '';
             document.getElementById('accName').value = '';
             document.getElementById('accBalance').value = '';
-            document.getElementById('accountFormTitle').textContent = 'New Asset / Liability Account';
         }
 
         function editAccount(id) {
@@ -1885,7 +1388,6 @@ self.addEventListener('fetch', (event) => {
             document.getElementById('accName').value = acc.name;
             document.getElementById('accBalance').value = acc.balance;
             document.getElementById('accType').value = acc.type;
-            document.getElementById('accountFormTitle').textContent = `Edit Account: ${acc.name}`;
         }
 
         function saveAccount() {
@@ -1893,56 +1395,28 @@ self.addEventListener('fetch', (event) => {
             const name = document.getElementById('accName').value.trim();
             const bal = parseFloat(document.getElementById('accBalance').value);
             const type = document.getElementById('accType').value;
-
             if (!name || isNaN(bal)) return;
 
             if (id) {
                 const idx = state.accounts.findIndex(a => a.id === id);
-                if (idx > -1) {
-                    state.accounts[idx] = { id, name, balance: bal, type };
-                }
+                if (idx > -1) state.accounts[idx] = { id, name, balance: bal, type };
             } else {
-                state.accounts.push({
-                    id: 'acc-' + Date.now(),
-                    name,
-                    balance: bal,
-                    type
-                });
+                state.accounts.push({ id: 'acc-' + Date.now(), name, balance: bal, type });
             }
-
             document.getElementById('accountFormContainer').classList.add('hidden');
-            saveState();
-            renderAll();
-            showToast('Account saved');
+            saveState(); renderAll(); showToast('Account saved');
         }
 
-        function deleteAccount(id) {
-            state.accounts = state.accounts.filter(a => a.id !== id);
-            saveState();
-            renderAll();
-            showToast('Account removed');
-        }
+        function deleteAccount(id) { state.accounts = state.accounts.filter(a => a.id !== id); saveState(); renderAll(); }
 
-        // Cash Flow Scheduler Management
         function toggleEndDateVisibility() {
             const freq = document.getElementById('cfFrequency').value;
-            const endWrap = document.getElementById('cfEndDateWrapper');
-            if (freq === 'once') {
-                endWrap.classList.add('hidden');
-            } else {
-                endWrap.classList.remove('hidden');
-            }
+            document.getElementById('cfEndDateWrapper').classList.toggle('hidden', freq === 'once');
         }
 
         function onCfTypeChange() {
             const type = document.getElementById('cfType').value;
-            const bucketWrap = document.getElementById('cfBucketWrapper');
-            if (type === 'expense') {
-                bucketWrap.classList.remove('hidden');
-            } else {
-                bucketWrap.classList.add('hidden');
-                document.getElementById('cfBucketId').value = '';
-            }
+            document.getElementById('cfBucketWrapper').classList.toggle('hidden', type !== 'expense');
         }
 
         function saveCashflowItem(e) {
@@ -1960,45 +1434,21 @@ self.addEventListener('fetch', (event) => {
 
             if (editId) {
                 const idx = state.cashflows.findIndex(c => c.id === editId);
-                if (idx > -1) {
-                    state.cashflows[idx] = {
-                        ...state.cashflows[idx],
-                        title, type, amount, date, frequency, endDate, bucketId
-                    };
-                }
+                if (idx > -1) state.cashflows[idx] = { ...state.cashflows[idx], title, type, amount, date, frequency, endDate, bucketId };
             } else {
-                state.cashflows.push({
-                    id: 'cf-' + Date.now(),
-                    title,
-                    type,
-                    amount,
-                    date,
-                    frequency,
-                    endDate,
-                    enabled: true,
-                    bucketId
-                });
+                state.cashflows.push({ id: 'cf-' + Date.now(), title, type, amount, date, frequency, endDate, enabled: true, bucketId });
             }
-
-            resetCashflowForm();
-            saveState();
-            renderAll();
-            showToast(editId ? 'Transazione aggiornata' : 'Aggiunto al forecast e budget collegato');
+            resetCashflowForm(); saveState(); renderAll(); showToast('Cashflow saved');
         }
 
         function resetCashflowForm() {
             document.getElementById('cfEditId').value = '';
             document.getElementById('cfTitle').value = '';
-            document.getElementById('cfType').value = 'earning';
             document.getElementById('cfAmount').value = '';
             document.getElementById('cfDate').value = addDaysISO(state.baseToday, 7);
             document.getElementById('cfFrequency').value = 'once';
-            document.getElementById('cfEndDate').value = '';
             document.getElementById('cfEndDateWrapper').classList.add('hidden');
             document.getElementById('cfBucketWrapper').classList.add('hidden');
-            document.getElementById('cfBucketId').value = '';
-            document.getElementById('cfFormTitle').textContent = '+ Schedule Future Cash Flow Item';
-            document.getElementById('cfSubmitBtnText').textContent = 'Add to Forecast';
             document.getElementById('cfCancelEditBtn').classList.add('hidden');
         }
 
@@ -2011,455 +1461,180 @@ self.addEventListener('fetch', (event) => {
             document.getElementById('cfAmount').value = item.amount;
             document.getElementById('cfDate').value = item.date;
             document.getElementById('cfFrequency').value = item.frequency;
-            document.getElementById('cfEndDate').value = item.endDate || '';
             toggleEndDateVisibility();
-
             onCfTypeChange();
-            if (item.type === 'expense') {
-                document.getElementById('cfBucketId').value = item.bucketId || '';
-            }
-
-            document.getElementById('cfFormTitle').textContent = `Editing: ${item.title}`;
-            document.getElementById('cfSubmitBtnText').textContent = 'Update Item';
+            if (item.type === 'expense') document.getElementById('cfBucketId').value = item.bucketId || '';
             document.getElementById('cfCancelEditBtn').classList.remove('hidden');
         }
 
         function toggleCashflowItem(id) {
             const item = state.cashflows.find(c => c.id === id);
-            if (!item) return;
-            item.enabled = !item.enabled;
-            saveState();
-            renderAll();
+            if (item) { item.enabled = !item.enabled; saveState(); renderAll(); }
         }
 
-        function toggleAllCashflows(enableState) {
-            state.cashflows.forEach(c => c.enabled = enableState);
-            saveState();
-            renderAll();
-            showToast('All scheduled cash flows enabled');
-        }
+        function toggleAllCashflows(val) { state.cashflows.forEach(c => c.enabled = val); saveState(); renderAll(); }
+        function deleteCashflowItem(id) { state.cashflows = state.cashflows.filter(c => c.id !== id); saveState(); renderAll(); }
+        function setCfFilter(f) { state.cfFilter = f; saveState(); renderAll(); }
 
-        function deleteCashflowItem(id) {
-            state.cashflows = state.cashflows.filter(c => c.id !== id);
-            saveState();
-            renderAll();
-            showToast('Cash flow rule deleted');
-        }
+        function setActiveBudgetTab(tab) { state.activeBudgetTab = tab; saveState(); renderAll(); }
+        function setBudgetBasis(basis) { state.budgetBasis = basis; saveState(); renderAll(); }
+        function onSafetyFloorChange(val) { state.safetyFloor = Math.max(0, parseFloat(val) || 0); saveState(); renderAll(); }
 
-        function setCfFilter(filter) {
-            state.cfFilter = filter;
-            saveState();
-            renderAll();
-        }
-
-        // --- Percentage Budget Allocator Handlers ---
-        function setBudgetBasis(basis) {
-            state.budgetBasis = basis;
-            saveState();
-            renderAll();
-        }
-
-        function onSafetyFloorChange(val) {
-            state.safetyFloor = Math.max(0, parseFloat(val) || 0);
-            saveState();
-            renderAll();
-        }
-
-        function toggleBucketKind(bucketId) {
-            const b = state.budgets.find(x => x.id === bucketId);
-            if (!b) return;
-            b.kind = b.kind === 'monthly' ? 'networth' : 'monthly';
-            saveState();
-            renderAll();
-            showToast(`Bucket impostato a: ${b.kind === 'monthly' ? 'Budget Mensile (% Stipendio)' : 'Patrimonio (% Net Worth)'}`);
-        }
-
-        function updateBucketPercent(id, newPct) {
+        function toggleBucketKind(id) {
             const b = state.budgets.find(x => x.id === id);
-            if (!b) return;
-            b.percent = Math.max(0, Math.min(100, parseFloat(newPct) || 0));
-            saveState();
-            renderAll();
+            if (b) { b.kind = b.kind === 'monthly' ? 'networth' : 'monthly'; saveState(); renderAll(); }
         }
 
-        function updateBucketSpent(id, newSpent) {
+        function updateBucketPercent(id, val) {
             const b = state.budgets.find(x => x.id === id);
-            if (!b) return;
-            b.spent = Math.max(0, parseFloat(newSpent) || 0);
-            saveState();
-            renderAll();
+            if (b) { b.percent = Math.max(0, Math.min(100, parseFloat(val) || 0)); saveState(); renderAll(); }
         }
 
         function addBudgetBucket() {
             const nameInput = document.getElementById('newBucketName');
             const pctInput = document.getElementById('newBucketPct');
-            const kindSelect = document.getElementById('newBucketKind');
             const name = nameInput.value.trim();
             const pct = parseFloat(pctInput.value);
-            const kind = kindSelect ? (kindSelect.value || 'networth') : 'networth';
+            const kind = state.activeBudgetTab || 'monthly';
+            if (!name) return;
 
-            if (!name) {
-                showToast('Inserisci un nome per il bucket');
-                return;
-            }
-
-            const usedColors = state.budgets.map(b => b.color);
-            const nextColor = BUCKET_COLORS.find(c => !usedColors.includes(c)) || BUCKET_COLORS[state.budgets.length % BUCKET_COLORS.length];
-
-            state.budgets.push({
-                id: 'b-' + Date.now(),
-                name,
-                kind,
-                percent: !isNaN(pct) && pct >= 0 ? pct : 10,
-                spent: 0,
-                color: nextColor
-            });
-
-            nameInput.value = '';
-            pctInput.value = '';
-            saveState();
-            renderAll();
-            showToast('Budget bucket aggiunto');
+            state.budgets.push({ id: 'b-' + Date.now(), name, kind, percent: !isNaN(pct) ? pct : 10, spent: 0, color: BUCKET_COLORS[state.budgets.length % BUCKET_COLORS.length] });
+            nameInput.value = ''; pctInput.value = ''; saveState(); renderAll();
         }
 
-        function deleteBudgetBucket(id) {
-            state.budgets = state.budgets.filter(b => b.id !== id);
-            saveState();
-            renderAll();
-            showToast('Budget bucket removed');
-        }
+        function deleteBudgetBucket(id) { state.budgets = state.budgets.filter(b => b.id !== id); saveState(); renderAll(); }
 
         function normalizeBudgetsTo100() {
-            if (state.budgets.length === 0) return;
-            const total = state.budgets.reduce((s, b) => s + (Number(b.percent) || 0), 0);
-            if (total <= 0) {
-                const equalShare = Number((100 / state.budgets.length).toFixed(1));
-                state.budgets.forEach((b, i) => {
-                    b.percent = i === state.budgets.length - 1
-                        ? Number((100 - equalShare * (state.budgets.length - 1)).toFixed(1))
-                        : equalShare;
-                });
-            } else {
+            const activeTab = state.activeBudgetTab || 'monthly';
+            const tabBuckets = state.budgets.filter(b => (b.kind || 'networth') === activeTab);
+            if (tabBuckets.length === 0) return;
+            const total = tabBuckets.reduce((s, b) => s + (Number(b.percent) || 0), 0);
+            if (total > 0) {
                 let running = 0;
-                state.budgets.forEach((b, i) => {
-                    if (i === state.budgets.length - 1) {
-                        b.percent = Number(Math.max(0, 100 - running).toFixed(1));
-                    } else {
+                tabBuckets.forEach((b, i) => {
+                    if (i === tabBuckets.length - 1) b.percent = Number(Math.max(0, 100 - running).toFixed(1));
+                    else {
                         const scaled = Number(((b.percent / total) * 100).toFixed(1));
-                        b.percent = scaled;
-                        running += scaled;
+                        b.percent = scaled; running += scaled;
                     }
                 });
             }
-            saveState();
-            renderAll();
-            showToast('Budgets normalized to 100%');
+            saveState(); renderAll(); showToast('Normalized to 100%');
         }
 
-        // Export / Import / Quick Clipboard Sync / PWA Modal
         function exportData() {
-            const exportDate = getTodayISO();
-            const payload = {
-                ...state,
-                exportedAt: new Date().toISOString(),
-                appVersion: '2.5-PWA'
-            };
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `networth-backup-${exportDate}.json`);
-            document.body.appendChild(dlAnchor);
-            dlAnchor.click();
-            dlAnchor.remove();
-            showToast(`Saved networth-backup-${exportDate}.json`);
+            dlAnchor.setAttribute("download", `horizon-backup-${getTodayISO()}.json`);
+            document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
         }
 
-        function importData(event) {
-            const file = event.target.files[0];
+        function importData(e) {
+            const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function(evt) {
                 try {
-                    const imported = JSON.parse(e.target.result);
-                    if (imported && Array.isArray(imported.accounts) && Array.isArray(imported.cashflows)) {
-                        state = { ...getDefaultSampleState(), ...imported };
-                        saveState();
-                        renderAll();
-                        showToast('JSON Backup restored & synced!');
-                    } else {
-                        showToast('Invalid backup file structure');
+                    const parsed = JSON.parse(evt.target.result);
+                    if (parsed && Array.isArray(parsed.accounts)) {
+                        state = { ...getDefaultSampleState(), ...parsed };
+                        saveState(); renderAll(); showToast('Backup imported successfully!');
                     }
-                } catch (err) {
-                    console.error('Invalid JSON file', err);
-                    showToast('Failed to parse JSON file');
-                }
-                event.target.value = '';
+                } catch (err) { showToast('Invalid JSON'); }
+                e.target.value = '';
             };
             reader.readAsText(file);
         }
 
-        // --- Quick Clipboard Sync (URL-Safe & Chat-App Sanitizing) ---
         function encodeSyncString(obj) {
             const jsonStr = JSON.stringify(obj);
             const utf8Bytes = new TextEncoder().encode(jsonStr);
             let binary = '';
-            for (let i = 0; i < utf8Bytes.length; i++) {
-                binary += String.fromCharCode(utf8Bytes[i]);
-            }
-            // Convert standard Base64 to URL-safe Base64 (- and _ instead of + and /) so WhatsApp/Telegram never break it
-            const b64UrlSafe = btoa(binary)
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_')
-                .replace(/=+$/, '');
-            return 'HZN1:' + b64UrlSafe;
+            for (let i = 0; i < utf8Bytes.length; i++) binary += String.fromCharCode(utf8Bytes[i]);
+            return 'HZN1:' + btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         }
 
         function decodeSyncString(codeStr) {
-            if (!codeStr) throw new Error('Empty input');
             let cleaned = codeStr.trim();
-
-            // 1. If user pasted raw JSON directly
-            const firstBrace = cleaned.indexOf('{');
-            const lastBrace = cleaned.lastIndexOf('}');
-            if (firstBrace !== -1 && lastBrace > firstBrace && !cleaned.includes('HZN1:')) {
-                return JSON.parse(cleaned.substring(firstBrace, lastBrace + 1));
-            }
-
-            // 2. If user pasted a full Magic Link URL containing ?sync=... or #sync=...
             if (cleaned.includes('sync=')) {
                 const match = cleaned.match(/[?#&]sync=([^&\s]+)/);
-                if (match && match[1]) {
-                    cleaned = decodeURIComponent(match[1]);
-                }
+                if (match && match[1]) cleaned = decodeURIComponent(match[1]);
             }
-
-            // 3. Extract the content after HZN1: if present (ignores timestamps or chat headers before it)
             const prefixIdx = cleaned.indexOf('HZN1:');
             let rawB64 = prefixIdx !== -1 ? cleaned.slice(prefixIdx + 5) : cleaned;
-
-            // 4. Strip all whitespace, newlines, zero-width spaces, or non-Base64 chars injected by mobile keyboards/chat apps
-            rawB64 = rawB64.replace(/[^A-Za-z0-9+/=_-]/g, '');
-
-            // 5. Convert URL-safe Base64 (- and _) back to standard Base64 (+ and /)
-            rawB64 = rawB64.replace(/-/g, '+').replace(/_/g, '/');
-
-            // 6. Restore missing Base64 '=' padding if truncated by chat apps
-            while (rawB64.length % 4 !== 0) {
-                rawB64 += '=';
-            }
-
+            rawB64 = rawB64.replace(/[^A-Za-z0-9+/=_-]/g, '').replace(/-/g, '+').replace(/_/g, '/');
+            while (rawB64.length % 4 !== 0) rawB64 += '=';
             const binary = atob(rawB64);
             const bytes = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i++) {
-                bytes[i] = binary.charCodeAt(i);
-            }
-            const decodedJson = new TextDecoder().decode(bytes);
-            return JSON.parse(decodedJson);
+            for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            return JSON.parse(new TextDecoder().decode(bytes));
         }
 
         function openClipboardSyncModal() {
-            const syncCode = encodeSyncString(state);
-            const inputEl = document.getElementById('generatedSyncCodeInput');
-            inputEl.value = syncCode;
-            document.getElementById('syncStringStats').textContent = `${state.accounts.length} accs • ${state.cashflows.length} flows (${syncCode.length} chars)`;
-            document.getElementById('pasteSyncCodeInput').value = '';
+            document.getElementById('generatedSyncCodeInput').value = encodeSyncString(state);
             document.getElementById('clipboardSyncModal').classList.remove('hidden');
         }
 
-        function closeClipboardSyncModal() {
-            document.getElementById('clipboardSyncModal').classList.add('hidden');
-        }
-
-        function copyTextFallback(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).catch(() => {});
-            }
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.focus();
-            ta.select();
-            try {
-                document.execCommand('copy');
-            } catch (e) {
-                console.error('Copy failed', e);
-            }
-            document.body.removeChild(ta);
-        }
+        function closeClipboardSyncModal() { document.getElementById('clipboardSyncModal').classList.add('hidden'); }
 
         function copySyncCodeToClipboard() {
-            const inputEl = document.getElementById('generatedSyncCodeInput');
-            copyTextFallback(inputEl.value);
-            showToast('Sync Code copied! Send it to your phone.');
+            navigator.clipboard.writeText(document.getElementById('generatedSyncCodeInput').value).catch(() => {});
+            showToast('Sync Code copied!');
         }
 
         function copyMagicSyncLink() {
-            const syncCode = encodeSyncString(state);
-            const baseUrl = window.location.origin + window.location.pathname;
-            const magicUrl = `${baseUrl}?sync=${encodeURIComponent(syncCode)}`;
-            copyTextFallback(magicUrl);
-            showToast('Magic Sync Link copied! Open the link on your phone to auto-sync.');
-        }
-
-        function checkUrlForMagicSync() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const syncParam = params.get('sync');
-                if (syncParam) {
-                    const parsed = decodeSyncString(syncParam);
-                    if (parsed && Array.isArray(parsed.accounts) && Array.isArray(parsed.cashflows)) {
-                        state = { ...getDefaultSampleState(), ...parsed };
-                        saveState();
-                        // Clean URL bar so refreshing doesn't overwrite future local changes
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                        setTimeout(() => showToast('Workspace automatically synced via Magic Link!'), 400);
-                    }
-                }
-            } catch (e) {
-                console.error('Failed to auto-sync from URL:', e);
-            }
+            const magicUrl = `${window.location.origin}${window.location.pathname}?sync=${encodeURIComponent(encodeSyncString(state))}`;
+            navigator.clipboard.writeText(magicUrl).catch(() => {});
+            showToast('Magic Link copied!');
         }
 
         function applyPastedSyncCode() {
-            const rawInput = document.getElementById('pasteSyncCodeInput').value.trim();
-            if (!rawInput) {
-                showToast('Please paste a Sync Code or Magic Link first');
-                return;
-            }
+            const raw = document.getElementById('pasteSyncCodeInput').value.trim();
             try {
-                const parsed = decodeSyncString(rawInput);
-                if (parsed && Array.isArray(parsed.accounts) && Array.isArray(parsed.cashflows)) {
+                const parsed = decodeSyncString(raw);
+                if (parsed && Array.isArray(parsed.accounts)) {
                     state = { ...getDefaultSampleState(), ...parsed };
-                    saveState();
-                    renderAll();
-                    closeClipboardSyncModal();
-                    showToast('Workspace synced successfully!');
-                } else {
-                    showToast('Sync Code is missing accounts or cashflows data');
+                    saveState(); renderAll(); closeClipboardSyncModal(); showToast('Synced successfully!');
                 }
-            } catch (e) {
-                console.error('Sync code decode error:', e);
-                showToast('Could not read Sync Code. Make sure you copied the entire text.');
+            } catch (e) { showToast('Invalid Sync Code'); }
+        }
+
+        function checkUrlForMagicSync() {
+            const params = new URLSearchParams(window.location.search);
+            const syncParam = params.get('sync');
+            if (syncParam) {
+                try {
+                    const parsed = decodeSyncString(syncParam);
+                    if (parsed && Array.isArray(parsed.accounts)) {
+                        state = { ...getDefaultSampleState(), ...parsed };
+                        saveState();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        setTimeout(() => showToast('Synced via Magic Link!'), 400);
+                    }
+                } catch (e) {}
             }
         }
 
-        // --- PWA Setup & Offline Guide Modal ---
-        function openPwaModal() {
-            document.getElementById('pwaModal').classList.remove('hidden');
-        }
+        function openPwaModal() { document.getElementById('pwaModal').classList.remove('hidden'); }
+        function closePwaModal() { document.getElementById('pwaModal').classList.add('hidden'); }
+        function openResetModal() { document.getElementById('resetModal').classList.remove('hidden'); }
+        function closeResetModal() { document.getElementById('resetModal').classList.add('hidden'); }
 
-        function closePwaModal() {
-            document.getElementById('pwaModal').classList.add('hidden');
-        }
-
-        function copyCodeBlock(elementId, toastText) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            copyTextFallback(el.textContent);
-            showToast(toastText || 'Copied to clipboard!');
-        }
-
-        function downloadCompanionFile(filename, elementId) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            const content = el.textContent;
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-            showToast(`Downloaded ${filename}`);
-        }
-
-        // --- Network Status & Graceful Service Worker Registration ---
-        function updateNetworkBadge() {
-            const badge = document.getElementById('networkStatusBadge');
-            if (!badge) return;
-            if (navigator.onLine) {
-                badge.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1';
-                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online Ready';
-            } else {
-                badge.className = 'text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1';
-                badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Offline Mode';
-            }
-        }
-
-        window.addEventListener('online', updateNetworkBadge);
-        window.addEventListener('offline', updateNetworkBadge);
-
-        function registerServiceWorkerGracefully() {
-            const statusText = document.getElementById('swRegistrationStatusText');
-            if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-                navigator.serviceWorker.register('./sw.js')
-                    .then((reg) => {
-                        if (statusText) statusText.textContent = `Service Worker Active (Scope: ${reg.scope})`;
-                    })
-                    .catch(() => {
-                        if (statusText) statusText.textContent = 'Service Worker: Place sw.js in root folder when hosting to activate offline cache.';
-                    });
-            }
-        }
-
-        function openResetModal() {
-            document.getElementById('resetModal').classList.remove('hidden');
-        }
-
-        function closeResetModal() {
-            document.getElementById('resetModal').classList.add('hidden');
-        }
-
-        function loadSampleData() {
-            state = getDefaultSampleState();
-            saveState();
-            renderAll();
-            showToast('Sample financial workspace loaded');
-        }
-
+        function loadSampleData() { state = getDefaultSampleState(); saveState(); renderAll(); showToast('Sample data loaded'); }
         function clearAllData() {
-            const today = getTodayISO();
-            state = {
-                currency: state.currency,
-                baseToday: today,
-                targetDate: addDaysISO(today, 90),
-                chartHorizonDays: 365,
-                budgetBasis: 'projected',
-                safetyFloor: 0,
-                cfFilter: 'all',
-                accounts: [],
-                cashflows: [],
-                budgets: [
-                    { id: 'b-1', name: 'Savings & Investments', percent: 50, spent: 0, color: '#38bdf8' },
-                    { id: 'b-2', name: 'Essentials & Living', percent: 30, spent: 0, color: '#10b981' },
-                    { id: 'b-3', name: 'Personal & Leisure', percent: 20, spent: 0, color: '#f59e0b' }
-                ]
-            };
-            saveState();
-            renderAll();
-            showToast('Workspace reset to €0');
+            state = { ...state, accounts: [], cashflows: [] };
+            saveState(); renderAll(); showToast('Cleared data');
         }
 
         function escapeHtml(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        // Initialize App on Load
         window.onload = function() {
             loadState();
             checkUrlForMagicSync();
             document.getElementById('cfDate').value = addDaysISO(state.baseToday, 7);
-            updateNetworkBadge();
-            registerServiceWorkerGracefully();
             renderAll();
         };
     </script>
