@@ -1,4 +1,4 @@
-const CACHE_NAME = 'horizon-nw-pwa-v2.8';
+const CACHE_NAME = 'horizon-nw-pwa-v2.9';
 const PRECACHE_URLS = [
   './',
   './index.html',
