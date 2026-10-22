@@ -125,6 +125,7 @@
                     <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i>
                     <span class="text-slate-400">Today:</span>
                     <input type="date" id="baseTodayInput" class="bg-transparent text-slate-200 font-mono focus:outline-none cursor-pointer">
+                    <button onclick="syncTodayToRealClock()" title="Riallinea alla data reale di oggi" class="text-sky-400 hover:text-sky-300 font-mono text-[11px] px-1">↺</button>
                 </div>
 
                 <div class="flex items-center bg-slate-900/90 border border-slate-700/70 rounded-lg p-0.5 text-[11px] sm:text-xs font-mono">
@@ -171,9 +172,14 @@
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                             Current Net Worth (Today)
                         </span>
-                        <button onclick="toggleAccountForm()" class="text-xs font-medium text-sky-400 hover:text-sky-300 flex items-center gap-1 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/20 transition">
-                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Account
-                        </button>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="openHistoryModal()" title="Salva o gestisci lo storico passato del Net Worth" class="text-xs font-medium text-emerald-300 hover:text-emerald-200 flex items-center gap-1 bg-emerald-500/10 px-2 py-1 rounded-lg border border-emerald-500/20 transition">
+                                <i data-lucide="history" class="w-3.5 h-3.5"></i> <span>Storico</span>
+                            </button>
+                            <button onclick="toggleAccountForm()" class="text-xs font-medium text-sky-400 hover:text-sky-300 flex items-center gap-1 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/20 transition">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Account
+                            </button>
+                        </div>
                     </div>
 
                     <div class="flex items-baseline gap-3 my-1">
@@ -314,7 +320,11 @@
                     </h2>
                     <p class="text-xs text-slate-400">Click anywhere on curve to lock Time-Machine to exact date</p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3">
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <button onclick="toggleShowHistoryOnChart()" id="btnToggleHistoryChart" class="text-xs font-mono px-2.5 py-1 rounded-lg border transition flex items-center gap-1.5">
+                        <i data-lucide="history" class="w-3.5 h-3.5"></i>
+                        <span id="btnToggleHistoryText">Mostra Storico Passato</span>
+                    </button>
                     <div id="lowestPointBadge" class="text-xs font-mono px-3 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-2">
                         <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-400"></i>
                         <span>Min Balance: <strong id="minBalanceValue" class="text-white">€0</strong> on <span id="minBalanceDate">N/A</span></span>
@@ -442,9 +452,14 @@
                             </h2>
                             <p class="text-xs text-slate-400">Gestisci separatamente il 100% dello Stipendio e il 100% del Patrimonio</p>
                         </div>
-                        <button onclick="normalizeBudgetsTo100()" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
-                            Normalize 100%
-                        </button>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="resetAllManualSpentInTab()" title="Azzera tutte le spese manuali di questa scheda (utile a inizio mese)" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 border border-slate-700 transition">
+                                ↺ Reset Spent
+                            </button>
+                            <button onclick="normalizeBudgetsTo100()" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
+                                Normalize 100%
+                            </button>
+                        </div>
                     </div>
 
                     <!-- TAB SWITCHER -->
@@ -531,17 +546,17 @@
             <i data-lucide="gauge" class="w-4 h-4 text-sky-400"></i>
             <span>Time-Machine</span>
         </button>
+        <button onclick="openHistoryModal()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
+            <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i>
+            <span>Storico</span>
+        </button>
         <button onclick="openClipboardSyncModal()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
-            <i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="refresh-cw" class="w-4 h-4 text-sky-400"></i>
             <span>Quick Sync</span>
         </button>
         <button onclick="exportData()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
             <i data-lucide="download" class="w-4 h-4 text-amber-400"></i>
             <span>Backup</span>
-        </button>
-        <button onclick="openPwaModal()" class="flex flex-col items-center gap-0.5 text-slate-300 hover:text-sky-400">
-            <i data-lucide="smartphone" class="w-4 h-4 text-purple-400"></i>
-            <span>Offline PWA</span>
         </button>
     </nav>
 
@@ -592,7 +607,54 @@
         </div>
     </div>
 
-    <!-- MODAL 2: PWA GUIDE -->
+    <!-- MODAL 2: NET WORTH HISTORY SNAPSHOTS -->
+    <div id="historyModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-5 sm:p-6 border border-slate-700 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+                        <i data-lucide="history" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-white">Storico Patrimonio Passato (Snapshots)</h3>
+                        <p class="text-[11px] text-slate-400">Salva o inserisci i valori passati per vedere la curva storica sul grafico</p>
+                    </div>
+                </div>
+                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-emerald-300">+ Aggiungi o Sovrascrivi Data</span>
+                    <button onclick="recordTodaySnapshotNow()" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 transition">
+                        📸 Salva Oggi (<span id="snapModalTodayVal">€0</span>)
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
+                    <div class="sm:col-span-5">
+                        <label class="block text-[10px] text-slate-400 mb-1">Data</label>
+                        <input type="date" id="snapDateInput" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white">
+                    </div>
+                    <div class="sm:col-span-4">
+                        <label class="block text-[10px] text-slate-400 mb-1">Net Worth</label>
+                        <input type="number" step="0.01" id="snapAmountInput" placeholder="e.g. 4800.00" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs font-mono text-white">
+                    </div>
+                    <div class="sm:col-span-3">
+                        <button onclick="addCustomHistorySnapshot()" class="w-full py-1.5 px-3 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-xs transition">Salva</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="historySnapshotsList" class="space-y-1.5 max-h-56 overflow-y-auto pr-1"></div>
+
+            <div class="flex justify-between items-center pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                <span>Ogni modifica ai conti salva in automatico lo snapshot di oggi.</span>
+                <button onclick="closeHistoryModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: PWA GUIDE -->
     <div id="pwaModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
         <div class="glass-panel max-w-3xl w-full max-h-[90vh] flex flex-col rounded-2xl border border-slate-700 shadow-2xl overflow-hidden">
             <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
@@ -653,15 +715,18 @@
         let state = {
             currency: '€',
             baseToday: getTodayISO(),
+            autoRollToday: true,
             targetDate: addDaysISO(getTodayISO(), 90),
             chartHorizonDays: 365,
+            showHistoryOnChart: true,
             budgetBasis: 'projected',
             activeBudgetTab: 'monthly', // 'monthly' | 'networth'
             safetyFloor: 1500,
             cfFilter: 'all',
             accounts: [],
             cashflows: [],
-            budgets: []
+            budgets: [],
+            history: [] // [{ date: 'YYYY-MM-DD', netWorth: 5030 }]
         };
 
         let trajectoryChartInstance = null;
@@ -725,8 +790,10 @@
             return {
                 currency: '€',
                 baseToday: today,
+                autoRollToday: true,
                 targetDate: addDaysISO(today, 90),
                 chartHorizonDays: 365,
+                showHistoryOnChart: true,
                 budgetBasis: 'projected',
                 activeBudgetTab: 'monthly',
                 safetyFloor: 1500,
@@ -770,6 +837,11 @@
                         enabled: true,
                         bucketId: 'b-4'
                     }
+                ],
+                history: [
+                    { date: addDaysISO(today, -30), netWorth: 4450.00 },
+                    { date: addDaysISO(today, -15), netWorth: 4720.00 },
+                    { date: today, netWorth: 5030.00 }
                 ]
             };
         }
@@ -797,6 +869,19 @@
             return spentMap;
         }
 
+        function recordAutoSnapshotForToday() {
+            if (!Array.isArray(state.history)) state.history = [];
+            const today = state.baseToday || getTodayISO();
+            const currentNW = getCurrentNetWorth();
+            const existingIdx = state.history.findIndex(h => h.date === today);
+            if (existingIdx > -1) {
+                state.history[existingIdx].netWorth = Number(currentNW.toFixed(2));
+            } else {
+                state.history.push({ date: today, netWorth: Number(currentNW.toFixed(2)) });
+            }
+            state.history.sort((a, b) => a.date.localeCompare(b.date));
+        }
+
         function loadState() {
             try {
                 const raw = localStorage.getItem(STORAGE_KEY);
@@ -804,6 +889,17 @@
                     const parsed = JSON.parse(raw);
                     if (parsed && Array.isArray(parsed.accounts) && Array.isArray(parsed.cashflows)) {
                         state = { ...getDefaultSampleState(), ...parsed };
+                        if (!Array.isArray(state.history)) state.history = [];
+                        // Rolling calendar: if autoRollToday is true, automatically advance baseToday to real system date
+                        const realToday = getTodayISO();
+                        if (state.autoRollToday !== false && state.baseToday < realToday) {
+                            const prevOffset = Math.max(30, diffDays(state.baseToday, state.targetDate));
+                            state.baseToday = realToday;
+                            if (state.targetDate <= realToday) {
+                                state.targetDate = addDaysISO(realToday, prevOffset);
+                            }
+                        }
+                        recordAutoSnapshotForToday();
                         return;
                     }
                 }
@@ -899,8 +995,23 @@
                 dailyDeltaMap[occ.date] += (occ.type === 'earning' ? occ.amount : -occ.amount);
             });
 
+            // Past History Points (before baseToday)
+            const pastSnapshots = (state.history || [])
+                .filter(h => h.date < state.baseToday)
+                .sort((a, b) => a.date.localeCompare(b.date));
+
             const labels = [];
-            const dataPoints = [];
+            const pastDataPoints = [];
+            const futureDataPoints = [];
+
+            if (state.showHistoryOnChart && pastSnapshots.length > 0) {
+                pastSnapshots.forEach(snap => {
+                    labels.push(snap.date);
+                    pastDataPoints.push(Number(Number(snap.netWorth).toFixed(2)));
+                    futureDataPoints.push(null);
+                });
+            }
+
             let runningNW = currentNW;
             let minNW = currentNW;
             let minNWDate = state.baseToday;
@@ -909,7 +1020,13 @@
                 const dISO = addDaysISO(state.baseToday, d);
                 if (d > 0 && dailyDeltaMap[dISO]) runningNW += dailyDeltaMap[dISO];
                 labels.push(dISO);
-                dataPoints.push(Number(runningNW.toFixed(2)));
+                const val = Number(runningNW.toFixed(2));
+                if (d === 0 && state.showHistoryOnChart && pastSnapshots.length > 0) {
+                    pastDataPoints.push(val); // Join past line to Today
+                } else {
+                    pastDataPoints.push(null);
+                }
+                futureDataPoints.push(val);
                 if (runningNW < minNW) {
                     minNW = runningNW;
                     minNWDate = dISO;
@@ -936,7 +1053,7 @@
 
             return {
                 currentNW, projectedNW, totalEarnings, totalExpenses,
-                inflowEvents, outflowEvents, labels, dataPoints, minNW, minNWDate, targetOccurrences
+                inflowEvents, outflowEvents, labels, pastDataPoints, futureDataPoints, minNW, minNWDate, targetOccurrences
             };
         }
 
@@ -957,6 +1074,15 @@
                 const btn = document.getElementById(`hz-${h}`);
                 btn.className = state.chartHorizonDays === h ? 'px-2.5 py-1 rounded-md bg-sky-500/20 text-sky-300 border border-sky-500/40 font-semibold transition' : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white transition';
             });
+
+            const histBtn = document.getElementById('btnToggleHistoryChart');
+            const pastCount = (state.history || []).filter(h => h.date < state.baseToday).length;
+            if (histBtn) {
+                histBtn.className = state.showHistoryOnChart
+                    ? 'text-xs font-mono px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 transition flex items-center gap-1.5'
+                    : 'text-xs font-mono px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 border border-slate-700 hover:text-white transition flex items-center gap-1.5';
+                document.getElementById('btnToggleHistoryText').textContent = `Storico Passato (${pastCount})`;
+            }
 
             const summary = computeProjectionSummary();
 
@@ -1039,20 +1165,37 @@
         function renderTrajectoryChart(summary) {
             const ctx = document.getElementById('trajectoryChart').getContext('2d');
             const targetIdx = summary.labels.indexOf(state.targetDate);
+            const todayIdx = summary.labels.indexOf(state.baseToday);
 
             const verticalTargetLinePlugin = {
                 id: 'verticalTargetLine',
                 afterDraw(chart) {
-                    const idx = chart.config.options.plugins.verticalTargetLine.targetIndex;
-                    if (idx === undefined || idx < 0) return;
-                    const meta = chart.getDatasetMeta(0);
-                    if (!meta || !meta.data || !meta.data[idx]) return;
-
-                    const x = meta.data[idx].x;
-                    const y = meta.data[idx].y;
+                    const opts = chart.config.options.plugins.verticalTargetLine;
+                    const idx = opts.targetIndex;
+                    const tIdx = opts.todayIndex;
+                    const metaFuture = chart.getDatasetMeta(0);
+                    const c = chart.ctx;
                     const topY = chart.scales.y.top;
                     const bottomY = chart.scales.y.bottom;
-                    const c = chart.ctx;
+
+                    // Draw "Today" marker if history is visible
+                    if (tIdx !== undefined && tIdx > 0 && metaFuture && metaFuture.data[tIdx]) {
+                        const tx = metaFuture.data[tIdx].x;
+                        c.save();
+                        c.beginPath();
+                        c.setLineDash([3, 3]);
+                        c.moveTo(tx, topY);
+                        c.lineTo(tx, bottomY);
+                        c.lineWidth = 1.5;
+                        c.strokeStyle = 'rgba(16, 185, 129, 0.6)';
+                        c.stroke();
+                        c.restore();
+                    }
+
+                    if (idx === undefined || idx < 0 || !metaFuture || !metaFuture.data || !metaFuture.data[idx]) return;
+
+                    const x = metaFuture.data[idx].x;
+                    const y = metaFuture.data[idx].y;
 
                     c.save();
                     c.beginPath();
@@ -1075,14 +1218,20 @@
                 }
             };
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(56, 189, 248, 0.32)');
-            gradient.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+            const gradientFuture = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientFuture.addColorStop(0, 'rgba(56, 189, 248, 0.32)');
+            gradientFuture.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+            const gradientPast = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientPast.addColorStop(0, 'rgba(16, 185, 129, 0.28)');
+            gradientPast.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
 
             if (trajectoryChartInstance) {
                 trajectoryChartInstance.data.labels = summary.labels;
-                trajectoryChartInstance.data.datasets[0].data = summary.dataPoints;
+                trajectoryChartInstance.data.datasets[0].data = summary.futureDataPoints;
+                trajectoryChartInstance.data.datasets[1].data = summary.pastDataPoints;
                 trajectoryChartInstance.options.plugins.verticalTargetLine.targetIndex = targetIdx;
+                trajectoryChartInstance.options.plugins.verticalTargetLine.todayIndex = todayIdx;
                 trajectoryChartInstance.update('none');
                 return;
             }
@@ -1091,17 +1240,32 @@
                 type: 'line',
                 data: {
                     labels: summary.labels,
-                    datasets: [{
-                        label: 'Projected Net Worth',
-                        data: summary.dataPoints,
-                        borderColor: '#38bdf8',
-                        backgroundColor: gradient,
-                        borderWidth: 2.5,
-                        fill: true,
-                        pointRadius: 0,
-                        pointHoverRadius: 5,
-                        tension: 0.15
-                    }]
+                    datasets: [
+                        {
+                            label: 'Projected Net Worth',
+                            data: summary.futureDataPoints,
+                            borderColor: '#38bdf8',
+                            backgroundColor: gradientFuture,
+                            borderWidth: 2.5,
+                            fill: true,
+                            pointRadius: 0,
+                            pointHoverRadius: 5,
+                            tension: 0.15,
+                            spanGaps: false
+                        },
+                        {
+                            label: 'Past Recorded Net Worth',
+                            data: summary.pastDataPoints,
+                            borderColor: '#10b981',
+                            backgroundColor: gradientPast,
+                            borderWidth: 2.5,
+                            fill: true,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            tension: 0.15,
+                            spanGaps: true
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
@@ -1111,7 +1275,7 @@
                         const points = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true);
                         if (points.length > 0) {
                             const clickedDate = chart.data.labels[points[0].index];
-                            if (clickedDate) {
+                            if (clickedDate && clickedDate >= state.baseToday) {
                                 state.targetDate = clickedDate;
                                 saveState();
                                 renderAll();
@@ -1120,14 +1284,14 @@
                     },
                     plugins: {
                         legend: { display: false },
-                        verticalTargetLine: { targetIndex: targetIdx },
+                        verticalTargetLine: { targetIndex: targetIdx, todayIndex: todayIdx },
                         tooltip: {
                             backgroundColor: 'rgba(15, 23, 42, 0.95)',
                             titleFont: { family: 'JetBrains Mono', size: 11 },
                             bodyFont: { family: 'JetBrains Mono', size: 13, weight: 'bold' },
                             callbacks: {
                                 title: (items) => formatDisplayDate(items[0].label),
-                                label: (item) => `Net Worth: ${formatMoney(item.raw)}`
+                                label: (item) => `${item.datasetIndex === 1 ? 'Storico' : 'Proiezione'}: ${formatMoney(item.raw)}`
                             }
                         }
                     },
@@ -1193,7 +1357,6 @@
 
             const freqLabels = { once: 'One-Time', weekly: 'Weekly', monthly: 'Monthly', yearly: 'Yearly' };
             listEl.innerHTML = filtered.map(item => {
-                const stats = ruleStatsMap[item.id] || { count: 0, totalImpact: 0 };
                 const isEarning = item.type === 'earning';
                 const linkedBucket = item.bucketId ? state.budgets.find(b => b.id === item.bucketId) : null;
 
@@ -1288,7 +1451,9 @@
                     const pct = Number(b.percent) || 0;
                     const kind = b.kind || 'networth';
                     const allocatedAmount = activePoolAmount * (pct / 100);
-                    const totalSpent = (autoSpentMap[b.id] || 0) + (Number(b.spent) || 0);
+                    const autoSpent = autoSpentMap[b.id] || 0;
+                    const manualSpent = Number(b.spent) || 0;
+                    const totalSpent = autoSpent + manualSpent;
                     const remaining = allocatedAmount - totalSpent;
 
                     return `
@@ -1317,8 +1482,16 @@
                                     <span class="text-xs font-mono text-slate-400 ml-0.5">%</span>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between gap-2 pt-1.5 border-t border-slate-800 text-[11px]">
-                                <span class="text-slate-400">Committed/Spent: <strong class="text-slate-200 font-mono">${formatMoney(totalSpent)}</strong></span>
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/90 text-[11px]">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-slate-400" title="Somma automatica dalle spese pianificate collegate">Auto: <strong class="text-slate-300 font-mono">${formatMoney(autoSpent)}</strong></span>
+                                    <div class="flex items-center gap-1 bg-slate-950 border border-slate-700/80 rounded-lg px-2 py-0.5">
+                                        <span class="text-slate-400 text-[10px]">Manual/Spent:</span>
+                                        <span class="text-slate-500 font-mono text-[10px]">${state.currency}</span>
+                                        <input type="number" step="0.01" value="${manualSpent}" onchange="updateBucketManualSpent('${b.id}', this.value)" class="w-16 bg-transparent text-right font-mono text-amber-300 focus:outline-none" placeholder="0">
+                                        <button onclick="updateBucketManualSpent('${b.id}', 0)" title="Azzera spesa manuale" class="text-slate-500 hover:text-rose-400 ml-0.5">↺</button>
+                                    </div>
+                                </div>
                                 <span class="font-mono ${remaining >= 0 ? 'text-emerald-400' : 'text-rose-400'}">Disponibile: <strong>${formatMoney(remaining)}</strong></span>
                             </div>
                         </div>
@@ -1361,10 +1534,22 @@
         document.getElementById('baseTodayInput').addEventListener('change', function(e) {
             if (!e.target.value) return;
             state.baseToday = e.target.value;
+            state.autoRollToday = (e.target.value === getTodayISO());
             if (state.targetDate < state.baseToday) state.targetDate = addDaysISO(state.baseToday, 30);
             saveState();
             renderAll();
         });
+
+        function syncTodayToRealClock() {
+            const realToday = getTodayISO();
+            state.baseToday = realToday;
+            state.autoRollToday = true;
+            if (state.targetDate <= realToday) state.targetDate = addDaysISO(realToday, 90);
+            recordAutoSnapshotForToday();
+            saveState();
+            renderAll();
+            showToast('Calendario riallineato a oggi!');
+        }
 
         function setCurrency(sym) { state.currency = sym; saveState(); renderAll(); }
         function onTimelineSliderChange(days) { state.targetDate = addDaysISO(state.baseToday, Number(days)); saveState(); renderAll(); }
@@ -1372,6 +1557,7 @@
         function jumpToOffsetDays(days) { state.targetDate = addDaysISO(state.baseToday, days); saveState(); renderAll(); }
         function jumpToOffsetMonths(months) { state.targetDate = addMonthsISO(state.baseToday, months); saveState(); renderAll(); }
         function setChartHorizon(days) { state.chartHorizonDays = days; saveState(); renderAll(); }
+        function toggleShowHistoryOnChart() { state.showHistoryOnChart = !state.showHistoryOnChart; saveState(); renderAll(); }
 
         function toggleAccountForm() {
             document.getElementById('accountFormContainer').classList.toggle('hidden');
@@ -1404,10 +1590,80 @@
                 state.accounts.push({ id: 'acc-' + Date.now(), name, balance: bal, type });
             }
             document.getElementById('accountFormContainer').classList.add('hidden');
-            saveState(); renderAll(); showToast('Account saved');
+            recordAutoSnapshotForToday();
+            saveState(); renderAll(); showToast('Account saved & Snapshot updated');
         }
 
-        function deleteAccount(id) { state.accounts = state.accounts.filter(a => a.id !== id); saveState(); renderAll(); }
+        function deleteAccount(id) {
+            state.accounts = state.accounts.filter(a => a.id !== id);
+            recordAutoSnapshotForToday();
+            saveState(); renderAll();
+        }
+
+        // History Snapshots Management
+        function openHistoryModal() {
+            document.getElementById('snapDateInput').value = state.baseToday;
+            document.getElementById('snapAmountInput').value = getCurrentNetWorth().toFixed(2);
+            document.getElementById('snapModalTodayVal').textContent = formatMoney(getCurrentNetWorth());
+            renderHistoryModalList();
+            document.getElementById('historyModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').classList.add('hidden');
+        }
+
+        function recordTodaySnapshotNow() {
+            recordAutoSnapshotForToday();
+            saveState();
+            renderHistoryModalList();
+            renderAll();
+            showToast('Snapshot di oggi salvato!');
+        }
+
+        function addCustomHistorySnapshot() {
+            const d = document.getElementById('snapDateInput').value;
+            const val = parseFloat(document.getElementById('snapAmountInput').value);
+            if (!d || isNaN(val)) return;
+            if (!Array.isArray(state.history)) state.history = [];
+            const idx = state.history.findIndex(h => h.date === d);
+            if (idx > -1) state.history[idx].netWorth = Number(val.toFixed(2));
+            else state.history.push({ date: d, netWorth: Number(val.toFixed(2)) });
+            state.history.sort((a, b) => a.date.localeCompare(b.date));
+            saveState();
+            renderHistoryModalList();
+            renderAll();
+            showToast('Data storica salvata!');
+        }
+
+        function deleteHistorySnapshot(dateStr) {
+            state.history = (state.history || []).filter(h => h.date !== dateStr);
+            saveState();
+            renderHistoryModalList();
+            renderAll();
+        }
+
+        function renderHistoryModalList() {
+            const listEl = document.getElementById('historySnapshotsList');
+            const snaps = [...(state.history || [])].sort((a, b) => b.date.localeCompare(a.date));
+            if (snaps.length === 0) {
+                listEl.innerHTML = `<div class="text-xs text-slate-500 py-4 text-center border border-dashed border-slate-800 rounded-xl">Nessuno snapshot salvato.</div>`;
+                return;
+            }
+            listEl.innerHTML = snaps.map(s => `
+                <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="font-mono text-slate-300">${formatDisplayDate(s.date)}</span>
+                        ${s.date === state.baseToday ? `<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300">Today</span>` : ''}
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-mono font-bold text-emerald-400">${formatMoney(s.netWorth)}</span>
+                        <button onclick="deleteHistorySnapshot('${s.date}')" class="text-slate-500 hover:text-rose-400">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         function toggleEndDateVisibility() {
             const freq = document.getElementById('cfFrequency').value;
@@ -1488,6 +1744,26 @@
         function updateBucketPercent(id, val) {
             const b = state.budgets.find(x => x.id === id);
             if (b) { b.percent = Math.max(0, Math.min(100, parseFloat(val) || 0)); saveState(); renderAll(); }
+        }
+
+        function updateBucketManualSpent(id, val) {
+            const b = state.budgets.find(x => x.id === id);
+            if (b) {
+                b.spent = Math.max(0, parseFloat(val) || 0);
+                saveState();
+                renderAll();
+                showToast('Committed/Spent aggiornato');
+            }
+        }
+
+        function resetAllManualSpentInTab() {
+            const activeTab = state.activeBudgetTab || 'monthly';
+            state.budgets.forEach(b => {
+                if ((b.kind || 'networth') === activeTab) b.spent = 0;
+            });
+            saveState();
+            renderAll();
+            showToast('Spese manuali azzerate per questa scheda!');
         }
 
         function addBudgetBucket() {
@@ -1623,7 +1899,7 @@
 
         function loadSampleData() { state = getDefaultSampleState(); saveState(); renderAll(); showToast('Sample data loaded'); }
         function clearAllData() {
-            state = { ...state, accounts: [], cashflows: [] };
+            state = { ...state, accounts: [], cashflows: [], history: [] };
             saveState(); renderAll(); showToast('Cleared data');
         }
 
